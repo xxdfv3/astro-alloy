@@ -1,0 +1,148 @@
+############################
+# Build Output & Generated Files
+############################
+
+# Astro/Client build output
+dist/
+.astro/
+
+# Strapi build files
+build/
+.strapi/
+.strapi-updater.json
+.strapi-cloud.json
+.tsbuildinfo
+
+############################
+# Dependencies
+############################
+
+node_modules/
+.yarn/*
+!.yarn/cache
+!.yarn/unplugged
+!.yarn/patches
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+############################
+# Environment Variables
+############################
+
+.env
+.env.production
+
+############################
+# Logs
+############################
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+lcov.info
+logs/
+
+############################
+# OS-Specific Files
+############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+.Spotlight-V100
+.Trashes
+._*
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+############################
+# IDE & Editor Files
+############################
+
+.idea/
+nbproject/
+.eslintcache
+
+############################
+# Database Files
+############################
+
+*.sql
+*.sqlite
+*.sqlite3
+
+############################
+# Temporary & Cache Files
+############################
+
+.tmp
+lib-cov
+pids
+results
+coverage
+ssl/
+
+############################
+# Uploads (Strapi)
+############################
+
+public/uploads/*
+!public/uploads/.gitkeep
+
+############################
+# Strapi Specific
+############################
+
+license.txt
+exports/
+
+############################
+# Compiled/Binary Files
+############################
+
+*.7z
+*.cab
+*.class
+*.com
+*.csv
+*.dat
+*.dmg
+*.dll
+*.exe
+*.gz
+*.iso
+*.jar
+*.msi
+*.msm
+*.msp
+*.o
+*.out
+*.pid
+*.rar
+*.seed
+*.so
+*.swo
+*.swp
+*.swn
+*.swm
+*.tar
+*.zip
+
+############################
+# Node.js History
+############################
+
+.node_history
