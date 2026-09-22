@@ -1,0 +1,199 @@
+---
+// src/pages/privacy.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Политика конфиденциальности" description="Политика обработки и защиты персональных данных ТОО «Автоматические котлы»">
+  <Header />
+
+  <main class="privacy-page">
+    <div class="container">
+      <article class="privacy-content">
+        <h1 class="page-title">Политика конфиденциальности</h1>
+
+        <section>
+          <h2>1. Общие положения</h2>
+          <p>
+            ТОО «VZBoilers» уважает право Пользователя на конфиденциальность и защиту персональных данных. 
+            Настоящая Политика разработана в соответствии с Конституцией Республики Казахстан, Законом РК «О персональных данных и их защите» 
+            и иными нормативными правовыми актами Республики Казахстан.
+          </p>
+          <p>
+            Используя наш сайт и оставляя заявки, Пользователь выражает свое полное согласие с условиями данной Политики и дает осознанное 
+            согласие на обработку своих персональных данных.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Какие данные мы собираем</h2>
+          <p>Мы можем собирать и обрабатывать следующие категории данных:</p>
+          <ul>
+            <li>Фамилия, имя, отчество (при указании в формах);</li>
+            <li>Контактный номер телефона и адрес электронной почты (e-mail);</li>
+            <li>Текст сообщения или комментария, оставленного в форме обратной связи;</li>
+            <li>Технические данные: IP-адрес, данные файлов cookie, информация о браузере и операционной системе.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>3. Цели обработки персональных данных</h2>
+          <p>Компания использует полученные данные исключительно для:</p>
+          <ul>
+            <li>Обработки заявок на консультацию, расчет стоимости или заказ оборудования;</li>
+            <li>Отправки Пользователю уведомлений о новых продуктах, услугах, специальных предложениях и отраслевых событиях;</li>
+            <li>Улучшения качества обслуживания и работы веб-сайта;</li>
+            <li>Выполнения обязательств, вытекающих из законодательства Республики Казахстан.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Защита персональных данных</h2>
+          <p>
+            Компания принимает все необходимые организационные и технические меры для защиты персональных данных Пользователя 
+            от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования или распространения. 
+            Доступ к персональным данным имеют только уполномоченные сотрудники Компании.
+          </p>
+        </section>
+
+        <section class="highlight-section">
+          <h2>5. Право на отказ от уведомлений</h2>
+          <p>
+            ТОО «VZBoilers»» имеет право отправлять Пользователю информационные и рекламные сообщения. 
+            Однако мы уважаем ваше право на получение только нужной и ожидаемой информации.
+          </p>
+          <p>
+            <strong>Пользователь может в любой момент отказаться от получения сообщений</strong>, направив Компании письмо 
+            на адрес электронной почты <a href="mailto:vzmarket.shop@gmail.com">vzmarket.shop@gmail.com</a> 
+            с обязательной пометкой в теме письма: <strong>«Отказ от уведомлений»</strong>.
+          </p>
+          <p>
+            Обработка запроса на отказ производится в течение 5 (пяти) рабочих дней с момента получения письма.
+          </p>
+        </section>
+
+        <section>
+          <h2>6. Контактная информация</h2>
+          <p>
+            Если у вас возникли вопросы по обработке обращений, получению уведомлений или реализации ваших прав 
+            как субъекта персональных данных, вы можете связаться с нами:
+          </p>
+          <ul class="contact-list">
+            <li>
+              <strong>Электронная почта: </strong> 
+              <a href="mailto:vzmarket.shop@gmail.com">vzmarket.shop@gmail.com</a>
+            </li>
+            <li>
+              <strong>Юридическое лицо:</strong> ТОО «VZBoilers»»
+            </li>
+          </ul>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .privacy-page {
+    padding: 4rem 0;
+    background-color: #F5F7FA;
+  }
+
+  .privacy-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    padding: 3rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #DCE3EB;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .last-updated {
+    text-align: center;
+    color: #5A6B7B;
+    font-size: 0.875rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #DCE3EB;
+  }
+
+  .privacy-content section {
+    margin-bottom: 2.5rem;
+  }
+
+  .privacy-content h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0F3D66;
+    margin-bottom: 1rem;
+  }
+
+  .privacy-content p {
+    color: #5A6B7B;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .privacy-content ul {
+    color: #5A6B7B;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .privacy-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .privacy-content a {
+    color: #0F3D66;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .privacy-content a:hover {
+    border-bottom-color: #0F3D66;
+  }
+
+  /* Выделение важного блока про отказ от рассылки */
+  .highlight-section {
+    background-color: rgba(15, 61, 102, 0.03);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #0F3D66;
+  }
+
+  .contact-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .contact-list li {
+    margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .privacy-content {
+      padding: 1.5rem;
+    }
+    
+    .page-title {
+      font-size: 1.75rem;
+    }
+  }
+</style>

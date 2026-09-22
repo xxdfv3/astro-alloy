@@ -7,11 +7,9 @@
     <div class="header__inner">
       <!-- Логотип -->
       <a href="/" class="header__logo">
-        <div class="header__logo-icon">
-          <span>ПК</span>
-        </div>
+        <img src="/logo.svg" alt="VZ Логотип" class="header__logo-img" />
         <div class="header__logo-text">
-          <h1>ПечныеКомплексы</h1>
+          <h1>VZmarket</h1>
           <p>Промышленное оборудование</p>
         </div>
       </a>
@@ -27,10 +25,10 @@
       <!-- Контакты и кнопка -->
       <div class="header__contacts">
         <div class="header__phone">
-          <a href="tel:+78001234567">8 (800) 123-45-67</a>
-          <p>Бесплатно по России</p>
+          <a href="tel:+77476555343">8 (747) 655-53-43</a>
+          <p>Бесплатно по Казахстану</p>
         </div>
-        <a href="/contacts" class="header__btn">Заказать</a>
+          <a href="#" class="header__btn js-open-modal">Заказать</a>
       </div>
 
       <!-- Мобильное меню кнопка -->
@@ -48,8 +46,8 @@
         <a href="/services" class="header__mobile-link">Услуги</a>
         <a href="/about" class="header__mobile-link">О компании</a>
         <a href="/contacts" class="header__mobile-link">Контакты</a>
-        <a href="tel:+78001234567" class="header__mobile-phone">8 (800) 123-45-67</a>
-        <a href="/contacts" class="header__mobile-btn-action">Заказать</a>
+        <a href="tel:+77476555343" class="header__mobile-phone">8 (747) 655-53-43</a>
+        <a href="#" class="header__btn js-open-modal">Заказать</a>
       </nav>
     </div>
   </div>
@@ -89,38 +87,39 @@
 
   .header__logo {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    align-items: center; /* Идеальное вертикальное выравнивание */
+    gap: 12px; /* Аккуратный отступ между картинкой и текстом */
     text-decoration: none;
     color: white;
   }
 
-  .header__logo-icon {
+  .header__logo-img {
     width: 48px;
     height: 48px;
-    background-color: white;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    /* ВАЖНО: Убрали border-radius, чтобы не обрезать собственный круг логотипа */
   }
 
-  .header__logo-icon span {
-    color: #0F3D66;
-    font-weight: bold;
-    font-size: 1.25rem;
+  .header__logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2; /* Компактный интервал между строками текста */
   }
 
   .header__logo-text h1 {
-    font-size: 1.25rem;
-    font-weight: bold;
+    font-size: 1.25rem; /* ~20px: крупно и солидно */
+    font-weight: 700;
     margin: 0;
+    letter-spacing: 0.5px; /* Чуть разряженные буквы для "индустриального" вида */
   }
 
   .header__logo-text p {
-    font-size: 0.75rem;
-    color: #D1D5DB;
+    font-size: 0.75rem; /* ~12px: аккуратно и ненавязчиво */
+    color: #D1D5DB; /* Светло-серый, отлично читается на #0F3D66 */
     margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.5px;
   }
 
   .header__nav {
