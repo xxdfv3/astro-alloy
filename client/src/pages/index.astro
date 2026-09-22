@@ -1,18 +1,532 @@
 ---
+// index.astro - Главная страница
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConsultationModal from '../components/ConsultationModal.astro';
+const advantages = [
+  {
+    title: 'Надежное, сертифицированное оборудование',
+    description: 'Вся продукция соответствует ГОСТ и имеет необходимые сертификаты качества',
+    color: '#15803D',
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
+  },
+  {
+    title: 'Быстрые сроки изготовления, доставка, монтаж и подключение',
+    description: 'Оперативное производство и доставка оборудования в любую точку России',
+    color: '#C2410C',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z'
+  },
+  {
+    title: 'Полный комплекс работ "под ключ"',
+    description: 'От проектирования до ввода в эксплуатацию - берем на себя все этапы',
+    color: '#0F3D66',
+    icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
+  },
+  {
+    title: 'Консультация квалифицированных специалистов',
+    description: 'Опытные инженеры помогут подобрать оптимальное решение для ваших задач',
+    color: '#15803D',
+    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
+  },
+  {
+    title: 'Высокое качество в сочетании с выгодными ценами',
+    description: 'Прямые поставки от производителя без посредников и наценок',
+    color: '#C2410C',
+    icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+  },
+  {
+    title: 'Экономия Вашего времени',
+    description: 'Комплексный подход и отлаженные процессы позволяют быстро решать любые задачи',
+    color: '#0F3D66',
+    icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
+  }
+];
 
+const categories = [
+  {
+    title: 'Газовые котлы',
+    description: 'Промышленные газовые котлы мощностью от 100 кВт до 10 МВт для отопления и технологических процессов',
+    href: '/catalog/gas',
+    gradient: 'linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%)',
+    icon: 'M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z'
+  },
+  {
+    title: 'Паровые котлы',
+    description: 'Паровые котлы для промышленных предприятий с производительностью от 0.5 до 25 тонн пара в час',
+    href: '/catalog/steam',
+    gradient: 'linear-gradient(135deg, #C2410C 0%, #9A3412 100%)',
+    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'
+  },
+  {
+    title: 'Твердотопливные котлы',
+    description: 'Котлы на твердом топливе для отопления зданий и обеспечения горячего водоснабжения',
+    href: '/catalog/solid',
+    gradient: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
+    icon: 'M13 10V3L4 14h7v7l9-11h-7z'
+  }
+];
 ---
 
-<html lang="ru">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Главная</title>
-	</head>
-	<body>
-		<h1>Test</h1>
-		<h2>уебан</h2>
-	</body>
-</html>
+<Layout title="Главная">
+  <Header />
+
+  <!-- Hero секция -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__content">
+        <h1 class="hero__title">
+          Газовые, паровые и твердотопливные котлы от производителя
+        </h1>
+        <p class="hero__subtitle">
+          Производим надежное оборудование для промышленных предприятий, коммерческих объектов и частных заказчиков
+        </p>
+        <div class="hero__buttons">
+          <a href="/catalog" class="btn btn--primary">Смотреть каталог</a>
+          <a href="#" class="btn btn--secondary js-open-modal">Получить консультацию</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Почему нас выбирают -->
+  <section class="advantages">
+    <div class="container">
+      <h2 class="section-title">Почему нас выбирают</h2>
+      <div class="advantages__grid">
+        {advantages.map((adv) => (
+          <div class="advantage-card">
+            <div class="advantage-card__icon" style={`background-color: ${adv.color}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={adv.icon} />
+              </svg>
+            </div>
+            <h3 class="advantage-card__title">{adv.title}</h3>
+            <p class="advantage-card__description">{adv.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Категории товаров -->
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Наши категории оборудования</h2>
+      <div class="categories__grid">
+        {categories.map((cat) => (
+          <a href={cat.href} class="category-card">
+            <div class="category-card__image" style={`background: ${cat.gradient}`}>
+              <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="white">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={cat.icon} />
+              </svg>
+            </div>
+            <div class="category-card__content">
+              <h3 class="category-card__title">{cat.title}</h3>
+              <p class="category-card__description">{cat.description}</p>
+              <span class="category-card__link">
+                Подробнее
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Секция с формой заявки -->
+  <section class="contact-form">
+    <div class="container">
+      <div class="contact-form__wrapper">
+        <h2 class="contact-form__title">Остались вопросы?</h2>
+        <p class="contact-form__subtitle">
+          Оставьте заявку и наш специалист свяжется с вами в течение 15 минут
+        </p>
+        
+        <form class="form" data-netlify="true" name="page-contact">
+          <div class="form__group">
+            <label for="page-name" class="form__label">Ваше имя *</label>
+            <input
+              type="text"
+              id="page-name"
+              name="name"
+              required
+              class="form__input"
+              placeholder="Иван Иванов"
+            />
+          </div>
+          
+          <div class="form__group">
+            <label for="page-phone" class="form__label">Телефон *</label>
+            <input
+              type="tel"
+              id="page-phone"
+              name="phone"
+              required
+              class="form__input"
+              placeholder="+7 (777) 123-45-67"
+            />
+          </div>
+          
+          <div class="form__group">
+            <label for="page-message" class="form__label">Сообщение</label>
+            <textarea
+              id="page-message"
+              name="message"
+              rows="4"
+              class="form__textarea"
+              placeholder="Опишите ваш вопрос или задачу..."
+            ></textarea>
+          </div>
+
+          
+          
+          <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
+          
+          <p class="form__privacy">
+            Нажимая кнопку, вы соглашаетесь с 
+            <a href="/privacy"> политикой конфиденциальности</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <Footer />
+  <ConsultationModal />
+</Layout>
+
+<style>
+  /* Hero секция */
+  .hero {
+    background: linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%);
+    color: white;
+    padding: 5rem 0;
+  }
+
+  .hero__content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero__title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero__subtitle {
+    font-size: 1.25rem;
+    color: #E5E7EB;
+    margin-bottom: 2rem;
+  }
+
+  .hero__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  /* Кнопки */
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn--primary {
+    background-color: #C2410C;
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: #9A3412;
+  }
+
+  .btn--secondary {
+    background-color: white;
+    color: #0F3D66;
+  }
+
+  .btn--secondary:hover {
+    background-color: #F3F4F6;
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  /* Секции */
+  .advantages,
+  .categories,
+  .contact-form {
+    padding: 4rem 0;
+  }
+
+  .categories {
+    background-color: #F5F7FA;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #111827;
+    margin-bottom: 3rem;
+  }
+
+  /* Преимущества */
+  .advantages__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .advantage-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DCE3EB;
+  }
+
+  .advantage-card__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .advantage-card__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+  .advantage-card__description {
+    color: #5A6B7B;
+    line-height: 1.6;
+  }
+
+  /* Категории */
+  .categories__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .category-card {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DCE3EB;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s;
+  }
+
+  .category-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+
+  }
+
+  .category-card__image {
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .category-card__content {
+    padding: 1.5rem;
+  }
+
+  .category-card__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+
+  .category-card:hover .category-card__title {
+    color: #0B2E4D;
+  }
+
+  .category-card__description {
+    color: #5A6B7B;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .category-card__link {
+    color: #C2410C;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .category-card:hover .category-card__link svg {
+    transform: translateX(0.25rem);
+    transition: transform 0.2s;
+  }
+
+  /* Форма */
+  .contact-form__wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #DCE3EB;
+    padding: 2rem;
+  }
+
+  .contact-form__title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    text-align: center;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+
+  .contact-form__subtitle {
+    text-align: center;
+    color: #5A6B7B;
+    margin-bottom: 2rem;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+  }
+
+  .form__input,
+  .form__textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #DCE3EB;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form__input:focus,
+  .form__textarea:focus {
+    outline: none;
+    border-color: #0F3D66;
+    box-shadow: 0 0 0 3px rgba(15, 61, 102, 0.1);
+  }
+
+  .form__textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form__notice {
+    background-color: rgba(180, 83, 9, 0.1);
+    border: 1px solid #B45309;
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  .form__notice-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #B45309;
+    margin-bottom: 0.5rem;
+  }
+
+  .form__notice-list {
+    font-size: 0.875rem;
+    color: #B45309;
+    list-style-position: inside;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .form__privacy {
+    font-size: 0.75rem;
+    color: #5A6B7B;
+    text-align: center;
+  }
+
+  .form__privacy a {
+    color: #0F3D66;
+    text-decoration: none;
+  }
+
+  .form__privacy a:hover {
+    text-decoration: underline;
+  }
+
+  /* Адаптивность */
+  @media (min-width: 640px) {
+    .hero__buttons {
+      flex-direction: row;
+    }
+
+    .hero__title {
+      font-size: 3rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .advantages__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .categories__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .advantages__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .categories__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+    }
+  }
+</style>

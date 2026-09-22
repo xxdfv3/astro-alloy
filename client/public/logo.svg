@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Фон -->
+  <rect width="200" height="200" fill="#0F3D66"/>
+  
+  <!-- Белый круг -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="white" stroke-width="8"/>
+  
+  <!-- Буква V (отцентрирована) -->
+  <path d="M 40 68 L 70 131 L 78 131 L 108 68 L 88 68 L 74 101 L 60 68 Z" fill="white"/>
+  
+  <!-- Буква Z из трёх прямоугольников (отцентрирована) -->
+  <!-- Верхняя полка -->
+  <rect x="89" y="68" width="70" height="14" fill="white"/>
+  
+  <!-- Диагональ -->
+  <rect x="86.7" y="93.2" width="77.2" height="14" transform="rotate(-37 124 102)" fill="white"/>
+  
+  <!-- Нижняя полка -->
+  <rect x="89" y="117" width="70" height="14" fill="white"/>
+</svg>

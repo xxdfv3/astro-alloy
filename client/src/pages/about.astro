@@ -1,0 +1,393 @@
+---
+// src/pages/about.astro
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="О компании">
+  <div class="about-container">
+    <div class="container">
+      
+      <div class="hero">
+        <h1>О компании VZ-Market</h1>
+        <p>
+          Производственная компания из Костаная, специализирующаяся на изготовлении котельного оборудования и предоставлении услуг металлообработки. 
+          Мы объединяем опытных специалистов, современное оборудование и высокие стандарты качества, чтобы обеспечивать клиентов надежными тепловыми решениями.
+        </p>
+      </div>
+
+      <p style="font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 2rem;">
+        В каталоге компании представлены как готовые решения, так и возможность разработки <span class="highlight">индивидуальных проектов</span> по вашему техническому заданию. 
+        Мы берем на себя <span class="highlight">полный цикл работ</span> — от проектирования и производства до доставки и установки изделий.
+      </p>
+
+      <!-- Основные направления -->
+      <h2 class="section-title">Основные направления</h2>
+      <div class="directions-grid">
+        <div class="card">
+          <h3>Производство и монтаж</h3>
+          <p>Котельного оборудования любой сложности под ключ.</p>
+        </div>
+        <div class="card">
+          <h3>Плазменная резка</h3>
+          <p>Высокоточная резка металла на современном оборудовании с ЧПУ.</p>
+        </div>
+        <div class="card">
+          <h3>Листогибочные работы</h3>
+          <p>Изготовление деталей сложной геометрии с высокой точностью.</p>
+        </div>
+        <div class="card">
+          <h3>Металлоконструкции</h3>
+          <p>Производство металлических конструкций под заказ по вашим чертежам.</p>
+        </div>
+      </div>
+
+      <!-- Преимущества -->
+      <h2 class="section-title">Преимущества сотрудничества</h2>
+      <div class="advantages-grid">
+        <div class="advantage-card">
+          <h3>20+ лет опыта</h3>
+          <p>Глубокая экспертиза и эффективные решения для энергоснабжения промышленных объектов по всей стране.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Высокая репутация</h3>
+          <p>Регулярное участие в отраслевых выставках, награды и благодарности от клиентов.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Команда профессионалов</h3>
+          <p>Инженеры и техники с опытом более 20 лет, проходящие постоянное обучение.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Широкий выбор оборудования</h3>
+          <p>Котлы на угле, газе, биомассе, блочно-модульные котельные и паровые установки.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Прямые поставки</h3>
+          <p>Работаем напрямую с заказчиками, исключая посредников.</p>
+        </div>
+        <div class="advantage-card">
+          <h3>Современное производство</h3>
+          <p>Автоматическая сварка, плазменная резка, станки с ЧПУ. 17 сварочных аппаратов и 25 кран-балок.</p>
+        </div>
+      </div>
+
+      <!-- Сертификаты -->
+      <div class="certificates-section">
+        <h2 class="section-title" style="margin-top: 0;">Сертификаты и разрешительная документация</h2>
+        
+        <p class="cert-description">
+          Компания осуществляет деятельность в полном соответствии с действующими нормативами и требованиями. 
+          Ниже представлен перечень сертификатов, лицензий и деклараций, подтверждающих качество оборудования, 
+          право на выполнение строительно-монтажных работ и соответствие продукции установленным стандартам.
+          <br><br>
+          Все документы доступны для скачивания и ознакомления.
+        </p>
+
+        <div class="cert-category">
+          <h3>Список сертификатов для скачивания:</h3>
+          <ul class="cert-list">
+            <li class="cert-item">
+              <span class="cert-name">Индустриальный сертификат</span>
+              <a href="/docs/industrial-certificate.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Лицензия на строительно-монтажные работы (III категория)</span>
+              <a href="/docs/construction-license.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Разрешение на применение</span>
+              <a href="/docs/application-permit.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">ОД КВУ на ТОО</span>
+              <a href="/docs/od-kvu.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Патент №5039</span>
+              <a href="/docs/patent-5039.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">ОД 6640 ТЗВК на ТОО</span>
+              <a href="/docs/od-6640-tzvk.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">ОД 6522 БМВК на ТОО</span>
+              <a href="/docs/od-6522-bmvk.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cert-category">
+          <h3>Декларации о соответствии:</h3>
+          <ul class="cert-list">
+            <li class="cert-item">
+              <span class="cert-name">Блочно-модульная котельная</span>
+              <a href="/docs/declaration-bmvk.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Дымосос ДН (до 15 000 м³/ч)</span>
+              <a href="/docs/declaration-dn.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Котлы БМВК, КВУ, ТЗВК, КСТГ, КП</span>
+              <a href="/docs/declaration-boilers.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Экономайзер спаренный (от 800 до 1500)</span>
+              <a href="/docs/declaration-economizer.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Дымовая труба (до 1600)</span>
+              <a href="/docs/declaration-chimney.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Циклон ЦН-15</span>
+              <a href="/docs/declaration-cyclone.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="cert-category">
+          <h3>Сертификаты соответствия:</h3>
+          <ul class="cert-list">
+            <li class="cert-item">
+              <span class="cert-name">Дымосос / Дымовая труба</span>
+              <a href="/docs/cert-dn-chimney.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Циклон ЦН (2024)</span>
+              <a href="/docs/cert-cyclone-2024.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">Блочно-модульная котельная (2024)</span>
+              <a href="/docs/cert-bmvk-2024.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">СТ KZ КВУ (от 26.11.2024)</span>
+              <a href="/docs/cert-kzu-2024.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+            <li class="cert-item">
+              <span class="cert-name">БМВК (2024)</span>
+              <a href="/docs/cert-bmvk-2024-2.pdf" class="btn-download" download>Скачать PDF</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="closing-text">
+        Мы работаем как с частными клиентами, так и с коммерческими организациями, обеспечивая высокое качество продукции и индивидуальный подход к каждому заказу. 
+        Мы ценим долгосрочные партнёрские отношения, прозрачность и ответственность. Наш приоритет – предоставлять клиентам продукцию и услуги, которые соответствуют реальным задачам и срокам.
+      </p>
+
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Стили ТОЛЬКО для страницы "О компании" */
+  .about-container {
+    background-color: var(--bg-page);
+    padding: 4rem 1.5rem;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-dark);
+    margin-bottom: 1rem;
+  }
+
+  .hero p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .directions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  }
+
+  .card h3 {
+    color: var(--accent-dark);
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .advantage-card {
+    background: var(--bg-card);
+    border-left: 4px solid var(--accent-green);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .advantage-card h3 {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .advantage-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .certificates-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+
+  .cert-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .cert-category {
+    margin-bottom: 2rem;
+  }
+
+  .cert-category:last-child {
+    margin-bottom: 0;
+  }
+
+  .cert-category h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin-bottom: 1rem;
+  }
+
+  .cert-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: var(--bg-page);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s;
+  }
+
+  .cert-item:hover {
+    border-color: var(--accent-dark);
+  }
+
+  .cert-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--accent-dark);
+    color: white;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .btn-download:hover {
+    background-color: var(--accent-orange);
+  }
+
+  .closing-text {
+    margin-top: 3rem;
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    text-align: center;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .highlight {
+    color: var(--accent-orange);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .cert-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .btn-download {
+      width: 100%;
+      justify-content: center;
+    }
+    .hero h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

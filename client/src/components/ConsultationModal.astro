@@ -1,0 +1,252 @@
+---
+// ConsultationModal.astro - Единая форма обратной связи (модальное окно)
+---
+
+<div id="consultation-modal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Закрыть">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    
+    <h2 class="modal-title">Заказать консультацию</h2>
+    <p class="modal-subtitle">Оставьте заявку, и наш инженер свяжется с вами в течение 15 минут</p>
+    
+    <form class="modal-form" data-netlify="true" name="modal-contact">
+      <div class="form-group">
+        <label for="modal-name" class="form-label">Ваше имя *</label>
+        <input type="text" id="modal-name" name="name" required class="form-input" placeholder="Иван Иванов" />
+      </div>
+      
+      <div class="form-group">
+        <label for="modal-phone" class="form-label">Телефон *</label>
+        <input type="tel" id="modal-phone" name="phone" required class="form-input" placeholder="+7 (777) 123-45-67" />
+      </div>
+      
+      <div class="form-group">
+        <label for="modal-message" class="form-label">Комментарий (необязательно)</label>
+        <textarea id="modal-message" name="message" rows="3" class="form-textarea" placeholder="Какой тип оборудования вас интересует?"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
+      
+      <p class="form-privacy">
+        Нажимая кнопку, вы соглашаетесь с 
+        <a href="/privacy"> политикой конфиденциальности</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Фон-затемнение */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 31, 51, 0.7); /* #0B1F33 с прозрачностью */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 1rem;
+  }
+
+  /* Активное состояние модального окна */
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Само окно */
+  .modal-content {
+    background-color: #FFFFFF;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    border: 1px solid #DCE3EB;
+  }
+
+  .modal-overlay.active .modal-content {
+    transform: translateY(0);
+  }
+
+  /* Кнопка закрытия */
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #5A6B7B;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .modal-close:hover {
+    color: #111827;
+    background-color: #F5F7FA;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .modal-subtitle {
+    font-size: 0.875rem;
+    color: #5A6B7B;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Стили формы (дублируем базовые для автономности компонента) */
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #DCE3EB;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #F5F7FA;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #0F3D66;
+    box-shadow: 0 0 0 3px rgba(15, 61, 102, 0.1);
+    background-color: #FFFFFF;
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn--primary {
+    background-color: #C2410C;
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: #9A3412;
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  .form-privacy {
+    font-size: 0.75rem;
+    color: #5A6B7B;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  .form-privacy a {
+    color: #0F3D66;
+    text-decoration: none;
+  }
+
+  .form-privacy a:hover {
+    text-decoration: underline;
+  }
+
+  /* Блокировка прокрутки body при открытом модальном окне */
+  body.modal-open {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  // Находим элементы
+  const modal = document.getElementById('consultation-modal');
+  const closeBtn = modal?.querySelector('.modal-close');
+  const openBtns = document.querySelectorAll('.js-open-modal');
+
+  // Функция открытия
+  const openModal = () => {
+    modal?.classList.add('active');
+    document.body.classList.add('modal-open');
+  };
+
+  // Функция закрытия
+  const closeModal = () => {
+    modal?.classList.remove('active');
+    document.body.classList.remove('modal-open');
+  };
+
+  // Навешиваем обработчики на все кнопки с классом js-open-modal
+  openBtns?.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault(); // Предотвращаем переход по ссылке, если это <a>
+      openModal();
+    });
+  });
+
+  // Закрытие по крестику
+  closeBtn?.addEventListener('click', closeModal);
+
+  // Закрытие по клику вне окна (на затемненный фон)
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Закрытие по клавише Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+      closeModal();
+    }
+  });
+</script>
