@@ -1,0 +1,186 @@
+---
+// src/components/PortfolioSlider.astro
+interface Props {
+  images: { src: string; alt: string; title: string }[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="slider-wrapper">
+  <button class="slider-btn prev-btn" aria-label="Предыдущее фото">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <div class="slider-container">
+    <div class="slider-track">
+      {images.map((img, index) => (
+        <div class="slide">
+          <img src={img.src} alt={img.alt} loading="lazy" />
+          <div class="slide-caption">
+            <p>{img.title}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <button class="slider-btn next-btn" aria-label="Следующее фото">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .slider-wrapper {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .slider-container {
+    flex: 1;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+  }
+
+  .slider-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .slide {
+    min-width: 100%;
+    position: relative;
+    aspect-ratio: 16 / 9;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(15, 61, 102, 0.9), transparent);
+    color: white;
+    padding: 2rem 1.5rem 1rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  .slider-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--accent-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .slider-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .slider-btn:hover {
+    background-color: var(--accent-dark);
+    color: white;
+    border-color: var(--accent-dark);
+    transform: scale(1.05);
+  }
+
+  .slider-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Адаптивность для мобильных */
+  @media (max-width: 768px) {
+    .slider-wrapper {
+      gap: 0.5rem;
+    }
+    
+    .slider-btn {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .slide-caption {
+      font-size: 0.95rem;
+      padding: 1.5rem 1rem 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Простая и легкая логика переключения слайдов
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrappers = document.querySelectorAll('.slider-wrapper');
+    
+    wrappers.forEach(wrapper => {
+      const track = wrapper.querySelector('.slider-track');
+      const slides = wrapper.querySelectorAll('.slide');
+      const prevBtn = wrapper.querySelector('.prev-btn');
+      const nextBtn = wrapper.querySelector('.next-btn');
+      
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      const updateSlider = () => {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      };
+
+      prevBtn?.addEventListener('click', () => {
+        currentIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
+        updateSlider();
+      });
+
+      nextBtn?.addEventListener('click', () => {
+        currentIndex = (currentIndex === totalSlides - 1) ? 0 : currentIndex + 1;
+        updateSlider();
+      });
+
+      // Поддержка свайпов на мобильных устройствах
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) {
+          // Свайп влево (следующий)
+          currentIndex = (currentIndex === totalSlides - 1) ? 0 : currentIndex + 1;
+          updateSlider();
+        } else if (touchEndX - touchStartX > 50) {
+          // Свайп вправо (предыдущий)
+          currentIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
+          updateSlider();
+        }
+      }, { passive: true });
+    });
+  });
+</script>
