@@ -8,19 +8,19 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
 
 <Layout title="О компании">
   <Header />
-  
+
   <main class="about-page">
     <div class="container">
-      
+
       <!-- Hero секция -->
       <section class="hero">
         <h1>О компании VZmarket</h1>
         <p class="hero-subtext">
-          Производственная компания из Костаная, специализирующаяся на изготовлении котельного оборудования и предоставлении услуг металлообработки. 
+          Производственная компания из Костаная, специализирующаяся на изготовлении котельного оборудования и предоставлении услуг металлообработки.
           Мы объединяем опытных специалистов, современное оборудование и высокие стандарты качества, чтобы обеспечивать клиентов надежными тепловыми решениями.
         </p>
         <p class="hero-subtext">
-          В каталоге компании представлены как готовые решения, так и возможность разработки <span class="highlight">индивидуальных проектов</span> по вашему техническому заданию. 
+          В каталоге компании представлены как готовые решения, так и возможность разработки <span class="highlight">индивидуальных проектов</span> по вашему техническому заданию.
           Мы берем на себя <span class="highlight">полный цикл работ</span> — от проектирования и производства до доставки и установки изделий.
         </p>
       </section>
@@ -83,44 +83,52 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
       <section>
         <h2 class="section-title">Примеры наших работ</h2>
 
-        
-        <PortfolioSlider 
+        <PortfolioSlider
           images={[
-            { 
+            {
               src: '/images/portfolio/project.png',
-              alt: 'Монтаж блочно-модульной котельной', 
-              title: 'Монтаж блочно-модульной котельной мощностью 2 МВт' 
+              alt: 'Монтаж блочно-модульной котельной',
+              title: 'Монтаж блочно-модульной котельной мощностью 2 МВт'
             },
-            { 
-              src: '/images/portfolio/images.png', 
-              alt: 'Плазменная резка металла', 
-              title: 'Плазменная резка листового металла на станке с ЧПУ' 
+            {
+              src: '/images/portfolio/images.png',
+              alt: 'Плазменная резка металла',
+              title: 'Плазменная резка листового металла на станке с ЧПУ'
             },
-            { 
-              src: '/images/portfolio/images1.png', 
-              alt: 'Изготовление металлоконструкций', 
-              title: 'Производство нестандартных металлоконструкций по чертежам заказчика' 
+            {
+              src: '/images/portfolio/images1.png',
+              alt: 'Изготовление металлоконструкций',
+              title: 'Производство нестандартных металлоконструкций по чертежам заказчика'
             },
-            { 
-              src: '/images/portfolio/welding-1.jpg', 
-              alt: 'Автоматическая сварка', 
-              title: 'Автоматическая сварка элементов парового котла' 
+            {
+              src: '/images/portfolio/welding-1.jpg',
+              alt: 'Автоматическая сварка',
+              title: 'Автоматическая сварка элементов парового котла'
             }
-          ]} 
+          ]}
         />
       </section>
+
       <!-- Сертификаты -->
       <section class="certificates-section">
         <h2 class="section-title" style="margin-top: 0;">Сертификаты и документация</h2>
-        
+
         <p class="cert-description">
-          Компания осуществляет деятельность в полном соответствии с действующими нормативами. 
-          Ниже представлен перечень сертификатов, лицензий и деклараций, подтверждающих качество оборудования 
+          Компания осуществляет деятельность в полном соответствии с действующими нормативами.
+          Ниже представлен перечень сертификатов, лицензий и деклараций, подтверждающих качество оборудования
           и право на выполнение строительно-монтажных работ.
         </p>
 
-        <div class="cert-category">
-          <h3>Сертификаты</h3>
+        <!-- Категория 1 -->
+        <details class="cert-category" open>
+          <summary class="cert-summary">
+            <div class="summary-inner">
+              <h3>Сертификаты</h3>
+              <svg class="icon-toggle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </summary>
           <ul class="cert-list">
             <li class="cert-item">
               <span class="cert-name">Индустриальный сертификат</span>
@@ -141,20 +149,28 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
             <li class="cert-item">
               <span class="cert-name">Патент №5039</span>
               <a href="/docs/c5.pdf" class="btn-download" download>Скачать PDF</a>
-            </li> 
+            </li>
             <li class="cert-item">
               <span class="cert-name">ОД 6640 ТЗВК на ТОО</span>
               <a href="/docs/c6.pdf" class="btn-download" download>Скачать PDF</a>
-            </li>       
+            </li>
             <li class="cert-item">
               <span class="cert-name">ОД 6522 БМВК на ТОО</span>
               <a href="/docs/c7.pdf" class="btn-download" download>Скачать PDF</a>
-            </li>    
+            </li>
           </ul>
-        </div>
+        </details>
 
-        <div class="cert-category">
-          <h3>Декларации о соответствии</h3>
+        <!-- Категория 2 -->
+        <details class="cert-category" open>
+          <summary class="cert-summary">
+            <div class="summary-inner">
+              <h3>Декларации о соответствии</h3>
+              <svg class="icon-toggle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </summary>
           <ul class="cert-list">
             <li class="cert-item">
               <span class="cert-name">Блочно-модульная котельная</span>
@@ -181,10 +197,18 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
               <a href="/docs/c13.pdf" class="btn-download" download>Скачать PDF</a>
             </li>
           </ul>
-        </div>
+        </details>
 
-        <div class="cert-category">
-          <h3>Сертификаты соответствия</h3>
+        <!-- Категория 3 -->
+        <details class="cert-category" open>
+          <summary class="cert-summary">
+            <div class="summary-inner">
+              <h3>Сертификаты соответствия</h3>
+              <svg class="icon-toggle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </summary>
           <ul class="cert-list">
             <li class="cert-item">
               <span class="cert-name">Дымосос / Дымовая труба</span>
@@ -207,22 +231,22 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
               <a href="/docs/c18.pdf" class="btn-download" download>Скачать PDF</a>
             </li>
           </ul>
-        </div>
+        </details>
       </section>
 
       <!-- Заключение -->
       <section class="closing-section">
-        <p class=hero-subtext">
-          Мы работаем как с частными клиентами, так и с коммерческими организациями, 
-          обеспечивая высокое качество продукции и индивидуальный подход к каждому заказу. 
-          Наш приоритет – предоставлять клиентам продукцию и услуги, которые соответствуют 
+        <p class="hero-subtext">
+          Мы работаем как с частными клиентами, так и с коммерческими организациями,
+          обеспечивая высокое качество продукции и индивидуальный подход к каждому заказу.
+          Наш приоритет – предоставлять клиентам продукцию и услуги, которые соответствуют
           реальным задачам и срокам.
         </p>
       </section>
 
     </div>
   </main>
-  
+
   <Footer />
 </Layout>
 
@@ -352,28 +376,89 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     font-size: 1rem;
   }
 
+  /* --- Стили для аккордеона <details> --- */
   .cert-category {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 0.5rem;
   }
 
   .cert-category:last-child {
     margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  .cert-summary {
+    cursor: pointer;
+    list-style: none; /* Убирает стандартный треугольник */
+    user-select: none;
+    display: block; /* Важно: заставляет summary занимать всю ширину */
+    width: 100%;
+    outline: none;
+  }
+
+  /* Принудительно скрываем системные маркеры во всех браузерах */
+  .cert-summary::marker,
+  .cert-summary::-webkit-details-marker {
+    display: none !important;
+    content: "";
+  }
+
+  /* Обертка внутри summary для flexbox (решает баг в Safari) */
+  .summary-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Растягивает контейнер на всю ширину summary */
+    padding: 0.75rem 0;
+    transition: color 0.2s ease;
+  }
+
+  /* Анимация при наведении на заголовок */
+  .cert-summary:hover .summary-inner h3,
+  .cert-summary:hover .summary-inner .icon-toggle {
+    color: var(--accent-orange, #f97316); /* Подсветка при наведении */
   }
 
   .cert-category h3 {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--accent-dark);
-    margin-bottom: 1rem;
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+
+  .icon-toggle {
+    color: var(--accent-dark);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+  }
+
+  /* Вращение иконки, когда details открыт */
+  details[open] .icon-toggle {
+    transform: rotate(180deg);
   }
 
   .cert-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0 0 1rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    /* Анимация плавного появления */
+    animation: slideFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: top center;
+  }
+
+  @keyframes slideFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
   }
 
   .cert-item {
@@ -384,12 +469,13 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     background: var(--bg-page);
     border-radius: 0.5rem;
     border: 1px solid var(--border-color);
-    transition: border-color 0.2s, background-color 0.2s;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
   }
 
   .cert-item:hover {
     border-color: var(--accent-dark);
     background-color: #FFFFFF;
+    transform: translateX(4px); /* Легкий сдвиг вправо при наведении на карточку документа */
   }
 
   .cert-name {
@@ -437,13 +523,13 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     .hero h1 {
       font-size: 2rem;
     }
-    
+
     .cert-item {
       flex-direction: column;
       align-items: flex-start;
       gap: 1rem;
     }
-    
+
     .btn-download {
       width: 100%;
       justify-content: center;
