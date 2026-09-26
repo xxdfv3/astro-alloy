@@ -4,35 +4,26 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConsultationModal from '../components/ConsultationModal.astro';
+
 const advantages = [
   {
     title: 'Надежное, сертифицированное оборудование',
-    description: 'Вся продукция соответствует ГОСТ и имеет необходимые сертификаты качества',
-    color: '#FFFFFF',
     icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z'
   },
   {
     title: 'Полный комплекс работ "под ключ"',
-    description: 'От проектирования до ввода в эксплуатацию - берем на себя все этапы',
-    color: '#FFFFFF',
     icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'
   },
   {
     title: 'Высокое качество в сочетании с выгодными ценами',
-    description: 'Прямые поставки от производителя без посредников и наценок',
-    color: '#FFFFFF',
     icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'
   },
   {
-    title: 'Консультация специалистов',
-    description: 'Опытные инженеры помогут подобрать оптимальное решение для ваших задач',
-    color: '#FFFFFF',
+    title: 'Консультация квалифицированных специалистов',
     icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
   },
   {
     title: 'Экономия Вашего времени',
-    description: 'Оперативное производство и доставка оборудования в любую точку Казахстана',
-    color: '#FFFFFF',
     icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
   }
 ];
@@ -86,17 +77,14 @@ const categories = [
   <!-- Почему нас выбирают -->
   <section class="advantages">
     <div class="container">
-      <h2 class="section-title">Почему нас выбирают</h2>
+      <h2 class="section-title">Наши преимущества</h2>      
       <div class="advantages__grid">
         {advantages.map((adv) => (
-          <div class="advantage-card">
-            <div class="advantage-card__icon" style={`background-color: ${adv.color}`}>
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={adv.icon} />
-              </svg>
-            </div>
-            <h3 class="advantage-card__title">{adv.title}</h3>
-            <p class="advantage-card__description">{adv.description}</p>
+          <div class="advantage-item">
+            <svg class="advantage-icon" width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#EA0037" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d={adv.icon} />
+            </svg>
+            <span class="advantage-text">{adv.title}</span>
           </div>
         ))}
       </div>
@@ -161,7 +149,9 @@ const categories = [
               name="phone"
               required
               class="form__input"
-              placeholder="+7 (777) 123-45-67"
+              placeholder="+7 (___) ___-__-__"
+              pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}"
+              title="Введите номер в формате +7 (XXX) XXX-XX-XX"
             />
           </div>
 
@@ -176,8 +166,6 @@ const categories = [
             ></textarea>
           </div>
 
-
-
           <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
 
           <p class="form__privacy">
@@ -189,19 +177,62 @@ const categories = [
     </div>
   </section>
 
-
   <Footer />
   <ConsultationModal />
 </Layout>
 
 <style>
-  /* Hero секция */
+  /* =========================================
+     1. ГЛОБАЛЬНЫЕ ОТСТУПЫ СЕКЦИЙ (УМЕНЬШЕНЫ)
+     ========================================= */
   .hero {
     background: linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%);
     color: white;
-    padding: 5rem 0;
+    padding: 4rem 0; /* Уменьшено с 6rem */
   }
 
+  .advantages,
+  .categories,
+  .contact-form {
+    padding: 2.5rem 0; /* Уменьшено с 5rem до 2.5rem для компактности */
+  }
+
+  .categories {
+    background-color: #F5F7FA;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* =========================================
+     2. ТИПОГРАФИКА И ОТСТУПЫ ЗАГОЛОВКОВ (УМЕНЬШЕНЫ)
+     ========================================= */
+  .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center !important;
+    color: #111827;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: #5A6B7B;
+    margin-bottom: 3rem; /* Увеличено с 2rem до 3rem */
+    text-align: center !important;
+  }
+
+  /* Специфичный отступ для заголовка категорий */
+  .categories .section-title {
+    margin-bottom: 3rem; /* Увеличено с 0.5rem до 3rem */
+  }
+
+  /* =========================================
+     3. HERO СЕКЦИЯ
+     ========================================= */
   .hero__content {
     max-width: 800px;
     margin: 0 auto;
@@ -211,7 +242,7 @@ const categories = [
   .hero__title {
     font-size: 2.5rem;
     font-weight: bold;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
   }
 
@@ -228,10 +259,12 @@ const categories = [
     justify-content: center;
   }
 
-  /* Кнопки */
+  /* =========================================
+     4. КНОПКИ
+     ========================================= */
   .btn {
     display: inline-block;
-    padding: 1rem 2rem;
+    padding: 0.875rem 1.75rem; /* Чуть компактнее */
     border-radius: 0.5rem;
     font-weight: 600;
     font-size: 1.125rem;
@@ -264,102 +297,77 @@ const categories = [
     width: 100%;
   }
 
-  /* Секции */
-  .advantages,
-  .categories,
-  .contact-form {
-    padding: 4rem 0;
-  }
-
-  .categories {
-    background-color: #F5F7FA;
-  }
-
-  .section-title {
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    color: #111827;
-    margin-bottom: 3rem;
-  }
-
-  /* Преимущества */
+  /* =========================================
+     5. ПРЕИМУЩЕСТВА
+     ========================================= */
   .advantages__grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 2rem; /* Уменьшено с 2.5rem */
   }
 
-  .advantage-card {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #DCE3EB;
-    flex: 1 1 300px;  /* растягивается, но не меньше 300px */
-    max-width: 380px; /* ограничиваем ширину карточки */
-  }
-
-  .advantage-card__icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 0.5rem;
+  .advantage-item {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
+    align-items: flex-start;
+    gap: 1rem;
+    flex: 0 1 calc(33.333% - 1.34rem); /* Пересчитано под новый gap */
+    min-width: 280px;
   }
 
-  .advantage-card__title {
-    font-size: 1.25rem;
-    font-weight: bold;
+  .advantage-icon {
+    flex-shrink: 0;
+    width: 36px; /* Чуть компактнее */
+    height: 36px;
+    stroke: #EA0037;
+  }
+
+  .advantage-text {
+    font-size: 1.05rem;
+    font-weight: 500;
     color: #111827;
-    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    padding-top: 0.2rem;
   }
 
-  .advantage-card__description {
-    color: #5A6B7B;
-    line-height: 1.6;
-  }
-
-  /* Категории */
+  /* =========================================
+     6. КАТЕГОРИИ ТОВАРОВ
+     ========================================= */
   .categories__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem; /* Уменьшено с 2rem */
   }
 
   .category-card {
     background-color: #FFFFFF;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid #DCE3EB;
     text-decoration: none;
     color: inherit;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.3s, transform 0.3s;
   }
 
   .category-card:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
     transform: translateY(-4px);
-
   }
 
   .category-card__image {
-    height: 12rem;
+    height: 12rem; /* Вернул к 12rem для компактности */
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .category-card__content {
-    padding: 1.5rem;
+    padding: 1.25rem; /* Уменьшено с 1.5rem */
   }
 
   .category-card__title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     color: #111827;
     margin-bottom: 0.5rem;
@@ -373,7 +381,8 @@ const categories = [
   .category-card__description {
     color: #5A6B7B;
     margin-bottom: 1rem;
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: 0.95rem;
   }
 
   .category-card__link {
@@ -382,53 +391,57 @@ const categories = [
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 0.95rem;
   }
 
   .category-card:hover .category-card__link svg {
     transform: translateX(0.25rem);
-    transition: transform 0.2s;
+    transition: transform 0.3s;
   }
 
-  /* Форма */
+  /* =========================================
+     7. ФОРМА ЗАЯВКИ (УМЕНЬШЕНЫ ОТСТУПЫ)
+     ========================================= */
   .contact-form__wrapper {
     max-width: 600px;
     margin: 0 auto;
     background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid #DCE3EB;
-    padding: 2rem;
+    padding: 2rem; /* Уменьшено с 3rem */
   }
 
   .contact-form__title {
-    font-size: 1.875rem;
+    font-size: 1.5rem; /* Чуть компактнее */
     font-weight: bold;
     text-align: center;
     color: #111827;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .contact-form__subtitle {
     text-align: center;
     color: #5A6B7B;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Уменьшено с 2.5rem */
+    font-size: 1rem;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1rem; /* Уменьшено с 1.25rem */
   }
 
   .form__group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
 
   .form__label {
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #111827;
   }
 
@@ -440,6 +453,7 @@ const categories = [
     font-size: 1rem;
     font-family: inherit;
     transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #F9FAFB;
   }
 
   .form__input:focus,
@@ -447,6 +461,7 @@ const categories = [
     outline: none;
     border-color: #0F3D66;
     box-shadow: 0 0 0 3px rgba(15, 61, 102, 0.1);
+    background-color: #FFFFFF;
   }
 
   .form__textarea {
@@ -454,33 +469,11 @@ const categories = [
     min-height: 100px;
   }
 
-  .form__notice {
-    background-color: rgba(180, 83, 9, 0.1);
-    border: 1px solid #B45309;
-    border-radius: 0.5rem;
-    padding: 1rem;
-  }
-
-  .form__notice-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #B45309;
-    margin-bottom: 0.5rem;
-  }
-
-  .form__notice-list {
-    font-size: 0.875rem;
-    color: #B45309;
-    list-style-position: inside;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
   .form__privacy {
     font-size: 0.75rem;
-    color: #5A6B7B;
+    color: #6B7280;
     text-align: center;
+    margin-top: 0.75rem;
   }
 
   .form__privacy a {
@@ -492,38 +485,129 @@ const categories = [
     text-decoration: underline;
   }
 
-  /* Адаптивность */
+  /* =========================================
+     8. АДАПТИВНОСТЬ
+     ========================================= */
   @media (min-width: 640px) {
     .hero__buttons {
       flex-direction: row;
     }
-
     .hero__title {
-      font-size: 3rem;
+      font-size: 2.25rem;
     }
   }
 
-  @media (min-width: 768px) {
-    .advantages__grid {
-      grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 1024px) {
+    .advantage-item {
+      flex: 0 1 calc(50% - 1rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 0; }
+    
+    .advantages, .categories, .contact-form {
+      padding: 2rem 0; /* Компактно на мобильных */
     }
 
-    .categories__grid {
-      grid-template-columns: repeat(2, 1fr);
+    .advantage-item {
+      flex: 0 1 100%;
+      min-width: auto;
+    }
+
+    .section-title { font-size: 1.5rem; }
+    .section-subtitle { font-size: 1rem; margin-bottom: 1.5rem; }
+
+    .contact-form__wrapper {
+      padding: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
-    .advantages__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
     .categories__grid {
       grid-template-columns: repeat(3, 1fr);
     }
-
     .section-title {
-      font-size: 2.5rem;
+      font-size: 2.25rem;
     }
   }
 </style>
+
+<script>
+  // === МАСКА ТЕЛЕФОНА ДЛЯ ФОРМЫ НА ГЛАВНОЙ СТРАНИЦЕ ===
+  const phoneInput = document.getElementById('page-phone');
+
+  if (phoneInput) {
+    const formatPhone = (value) => {
+      // Оставляем только цифры
+      const numbers = value.replace(/\D/g, '');
+      if (!numbers) return '';
+
+      // Если пользователь ввел 8 или 7 в начале, отбрасываем этот символ
+      let cleanNumbers = numbers;
+      if (cleanNumbers.startsWith('8') || cleanNumbers.startsWith('7')) {
+        cleanNumbers = cleanNumbers.substring(1);
+      }
+
+      // Ограничиваем 10 цифрами (3 цифры кода + 7 цифр номера)
+      const limitedNumbers = cleanNumbers.substring(0, 10);
+
+      let formatted = '+7';
+      if (limitedNumbers.length > 0) {
+        formatted += ' (' + limitedNumbers.substring(0, 3);
+      }
+      if (limitedNumbers.length >= 4) {
+        formatted += ') ' + limitedNumbers.substring(3, 6);
+      }
+      if (limitedNumbers.length >= 7) {
+        formatted += '-' + limitedNumbers.substring(6, 8);
+      }
+      if (limitedNumbers.length >= 9) {
+        formatted += '-' + limitedNumbers.substring(8, 10);
+      }
+
+      return formatted;
+    };
+
+    // Обработка ручного ввода
+    phoneInput.addEventListener('input', (e) => {
+      const oldValue = e.target.value;
+      const newValue = formatPhone(oldValue);
+      
+      e.target.value = newValue;
+
+      // Коррекция позиции курсора
+      if (e.target.selectionStart === oldValue.length) {
+        e.target.setSelectionRange(newValue.length, newValue.length);
+      }
+    });
+
+    // Обработка вставки из буфера обмена (Ctrl+V)
+    phoneInput.addEventListener('paste', (e) => {
+      setTimeout(() => {
+        e.target.value = formatPhone(e.target.value);
+      }, 0);
+    });
+
+    // Запрет на стирание префикса "+7 "
+    phoneInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && e.target.value.length <= 4) {
+        e.preventDefault();
+      }
+    });
+
+    // При фокусе, если поле пустое, сразу показываем начало маски
+    phoneInput.addEventListener('focus', (e) => {
+      if (!e.target.value || e.target.value === '+7') {
+        e.target.value = '+7 (';
+      }
+    });
+
+    // При потере фокуса проверяем, заполнен ли номер полностью (длина должна быть 18 символов)
+    phoneInput.addEventListener('blur', (e) => {
+      if (e.target.value.length < 18) { 
+        e.target.value = '';
+      }
+    });
+  }
+</script>

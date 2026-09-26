@@ -21,7 +21,17 @@
       
       <div class="form-group">
         <label for="modal-phone" class="form-label">Телефон *</label>
-        <input type="tel" id="modal-phone" name="phone" required class="form-input" placeholder="+7 (777) 123-45-67" />
+        <!-- Добавлен pattern для валидации HTML5 и обновлен placeholder -->
+        <input 
+          type="tel" 
+          id="modal-phone" 
+          name="phone" 
+          required 
+          class="form-input" 
+          placeholder="+7 (___) ___-__-__"
+          pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}"
+          title="Введите номер в формате +7 (XXX) XXX-XX-XX"
+        />
       </div>
       
       <div class="form-group">
@@ -208,42 +218,116 @@
 </style>
 
 <script>
-  // Находим элементы
+  // --- ЛОГИКА МАСКИ ТЕЛЕФОНА ---
+  const phoneInput = document.getElementById('modal-phone');
+
+  if (phoneInput) {
+    // Функция форматирования строки в вид +7 (XXX) XXX-XX-XX
+    const formatPhone = (value) => {
+      // Оставляем только цифры
+      const numbers = value.replace(/\D/g, '');
+      if (!numbers) return '';
+
+      // Если пользователь ввел 8 или 7 в начале, отбрасываем этот символ, 
+      // так как +7 мы добавим принудительно
+      let cleanNumbers = numbers;
+      if (cleanNumbers.startsWith('8') || cleanNumbers.startsWith('7')) {
+        cleanNumbers = cleanNumbers.substring(1);
+      }
+
+      // Ограничиваем 10 цифрами (3 цифры кода + 7 цифр номера)
+      const limitedNumbers = cleanNumbers.substring(0, 10);
+
+      let formatted = '+7';
+      if (limitedNumbers.length > 0) {
+        formatted += ' (' + limitedNumbers.substring(0, 3);
+      }
+      if (limitedNumbers.length >= 4) {
+        formatted += ') ' + limitedNumbers.substring(3, 6);
+      }
+      if (limitedNumbers.length >= 7) {
+        formatted += '-' + limitedNumbers.substring(6, 8);
+      }
+      if (limitedNumbers.length >= 9) {
+        formatted += '-' + limitedNumbers.substring(8, 10);
+      }
+
+      return formatted;
+    };
+
+    // Обработка ручного ввода
+    phoneInput.addEventListener('input', (e) => {
+      const oldValue = e.target.value;
+      const newValue = formatPhone(oldValue);
+      
+      e.target.value = newValue;
+
+      // Коррекция позиции курсора, чтобы он не прыгал в начало при вводе в конец
+      if (e.target.selectionStart === oldValue.length) {
+        e.target.setSelectionRange(newValue.length, newValue.length);
+      }
+    });
+
+    // Обработка вставки из буфера обмена (Ctrl+V / Долгое нажатие на мобильном)
+    phoneInput.addEventListener('paste', (e) => {
+      setTimeout(() => {
+        e.target.value = formatPhone(e.target.value);
+      }, 0);
+    });
+
+    // Запрет на стирание префикса "+7 "
+    phoneInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && e.target.value.length <= 4) {
+        e.preventDefault();
+      }
+    });
+
+    // При фокусе, если поле пустое, сразу показываем начало маски
+    phoneInput.addEventListener('focus', (e) => {
+      if (!e.target.value || e.target.value === '+7') {
+        e.target.value = '+7 (';
+      }
+    });
+
+    // При потере фокуса проверяем, заполнен ли номер полностью (длина должна быть 18 символов)
+    // Если нет — очищаем поле, чтобы не отправить невалидные данные
+    phoneInput.addEventListener('blur', (e) => {
+      if (e.target.value.length < 18) { 
+        e.target.value = '';
+      }
+    });
+  }
+
+  // --- ЛОГИКА МОДАЛЬНОГО ОКНА ---
   const modal = document.getElementById('consultation-modal');
   const closeBtn = modal?.querySelector('.modal-close');
   const openBtns = document.querySelectorAll('.js-open-modal');
 
-  // Функция открытия
   const openModal = () => {
     modal?.classList.add('active');
     document.body.classList.add('modal-open');
   };
 
-  // Функция закрытия
   const closeModal = () => {
     modal?.classList.remove('active');
     document.body.classList.remove('modal-open');
   };
 
-  // Навешиваем обработчики на все кнопки с классом js-open-modal
   openBtns?.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      e.preventDefault(); // Предотвращаем переход по ссылке, если это <a>
+      e.preventDefault();
       openModal();
     });
   });
 
-  // Закрытие по крестику
   closeBtn?.addEventListener('click', closeModal);
 
-  // Закрытие по клику вне окна (на затемненный фон)
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) {
       closeModal();
     }
   });
 
-  // Закрытие по клавише Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal?.classList.contains('active')) {
       closeModal();
