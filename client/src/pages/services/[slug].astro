@@ -1,0 +1,243 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ConsultationModal from '../../components/ConsultationModal.astro';
+import { servicesData } from '../../data/services.js';
+
+export const getStaticPaths = () => {
+  return Object.keys(servicesData).map((slug) => ({
+    params: { slug },
+    props: { service: servicesData[slug] }
+  }));
+};
+
+const { slug } = Astro.params;
+const currentService = Astro.props?.service || servicesData[slug];
+
+if (!currentService) {
+  return Astro.notFound();
+}
+---
+
+<Layout title={`${currentService.title} | VZmarket`}>
+  <Header />
+
+  <section class="service-hero">
+    <div class="container">
+      <h1 class="service-hero__title">{currentService.title}</h1>
+      <p class="service-hero__subtitle">{currentService.shortDesc}</p>
+    </div>
+  </section>
+
+  <section class="service-content">
+    <div class="container">
+      <div class="service-content__grid">
+        
+        <div class="service-content__image-wrapper">
+          <img 
+            src={currentService.image} 
+            alt={currentService.title} 
+            class="service-content__image"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="service-content__text">
+          <div class="service-content__description" set:html={currentService.fullDescription}></div>
+          
+          <button class="btn btn--primary btn--large js-open-modal" data-service-name={currentService.title}>
+            Заказать услугу
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+  <ConsultationModal />
+</Layout>
+
+<style>
+  .service-hero {
+    background: linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .service-hero__title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .service-hero__subtitle {
+    font-size: 1.25rem;
+    color: #E5E7EB;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .service-content {
+    padding: 4rem 0;
+    background-color: #FFFFFF;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .service-content__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .service-content__image-wrapper {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .service-content__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .service-content__image-wrapper:hover .service-content__image {
+    transform: scale(1.02);
+  }
+
+  .service-content__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .service-content__description {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #374151;
+  }
+
+  .service-content__description p {
+    margin-bottom: 1.5rem;
+  }
+
+  .service-content__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .service-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .service-list li {
+    position: relative;
+    padding-left: 1.75rem;
+    color: #111827;
+    font-weight: 500;
+  }
+
+  .service-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 8px;
+    height: 8px;
+    background-color: #C2410C;
+    border-radius: 50%;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn--primary {
+    background-color: #C2410C;
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background-color: #9A3412;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.3);
+  }
+
+  .btn--large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.25rem;
+    align-self: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .service-content__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .service-hero__title {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .service-hero {
+      padding: 3rem 0;
+    }
+    
+    .service-hero__title {
+      font-size: 1.75rem;
+    }
+
+    .service-content {
+      padding: 2.5rem 0;
+    }
+
+    .btn--large {
+      width: 100%;
+      align-self: stretch;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.js-open-modal');
+    if (btn) {
+      const serviceName = btn.getAttribute('data-service-name');
+      if (serviceName) {
+        setTimeout(() => {
+          const messageInput = document.getElementById('modal-message');
+          if (messageInput && !messageInput.value) {
+            messageInput.value = `Меня интересует услуга: "${serviceName}". Прошу связаться со мной для уточнения деталей. `;
+            messageInput.focus();
+            messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
+          }
+        }, 150);
+      }
+    }
+  });
+</script>
