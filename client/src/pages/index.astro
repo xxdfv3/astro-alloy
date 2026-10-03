@@ -1,8 +1,6 @@
 ---
 // index.astro - Главная страница
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import ConsultationModal from '../components/ConsultationModal.astro';
 
 const advantages = [
@@ -54,7 +52,6 @@ const categories = [
 ---
 
 <Layout title="Главная">
-  <Header />
 
   <!-- Hero секция -->
   <section class="hero">
@@ -68,7 +65,7 @@ const categories = [
         </p>
         <div class="hero__buttons">
           <a href="/catalog" class="btn btn--primary">Смотреть каталог</a>
-          <a href="#" class="btn btn--secondary js-open-modal">Получить консультацию</a>
+          <button id="open-modal-btn" class="btn btn--secondary" data-product="Консультация (главный экран)">Получить консультацию</button>
         </div>
       </div>
     </div>
@@ -122,62 +119,24 @@ const categories = [
   <!-- Секция с формой заявки -->
   <section class="contact-form">
     <div class="container">
-      <div class="contact-form__wrapper">
+      <div class="contact-form__wrapper" style="text-align: center;">
         <h2 class="contact-form__title">Остались вопросы?</h2>
         <p class="contact-form__subtitle">
           Оставьте заявку и наш специалист свяжется с вами в течение 15 минут
         </p>
 
-        <form class="form" data-netlify="true" name="page-contact">
-          <div class="form__group">
-            <label for="page-name" class="form__label">Ваше имя *</label>
-            <input
-              type="text"
-              id="page-name"
-              name="name"
-              required
-              class="form__input"
-              placeholder="Иван Иванов"
-            />
-          </div>
+        <button id="open-modal-btn" class="btn btn--primary" data-product="Вопрос внизу главной страницы">
+          Написать нам
+        </button>
 
-          <div class="form__group">
-            <label for="page-phone" class="form__label">Телефон *</label>
-            <input
-              type="tel"
-              id="page-phone"
-              name="phone"
-              required
-              class="form__input"
-              placeholder="+7 (___) ___-__-__"
-              pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}"
-              title="Введите номер в формате +7 (XXX) XXX-XX-XX"
-            />
-          </div>
-
-          <div class="form__group">
-            <label for="page-message" class="form__label">Сообщение</label>
-            <textarea
-              id="page-message"
-              name="message"
-              rows="4"
-              class="form__textarea"
-              placeholder="Опишите ваш вопрос или задачу..."
-            ></textarea>
-          </div>
-
-          <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
-
-          <p class="form__privacy">
-            Нажимая кнопку, вы соглашаетесь с
-            <a href="/privacy"> политикой конфиденциальности</a>
-          </p>
-        </form>
+        <p class="form__privacy" style="margin-top: 1rem;">
+          Нажимая кнопку, вы соглашаетесь с
+          <a href="/privacy"> политикой конфиденциальности</a>
+        </p>
       </div>
     </div>
   </section>
 
-  <Footer />
   <ConsultationModal />
 </Layout>
 
@@ -510,82 +469,3 @@ const categories = [
     }
   }
 </style>
-
-<script>
-  // === МАСКА ТЕЛЕФОНА ДЛЯ ФОРМЫ НА ГЛАВНОЙ СТРАНИЦЕ ===
-  const phoneInput = document.getElementById('page-phone');
-
-  if (phoneInput) {
-    const formatPhone = (value) => {
-      // Оставляем только цифры
-      const numbers = value.replace(/\D/g, '');
-      if (!numbers) return '';
-
-      // Если пользователь ввел 8 или 7 в начале, отбрасываем этот символ
-      let cleanNumbers = numbers;
-      if (cleanNumbers.startsWith('8') || cleanNumbers.startsWith('7')) {
-        cleanNumbers = cleanNumbers.substring(1);
-      }
-
-      // Ограничиваем 10 цифрами (3 цифры кода + 7 цифр номера)
-      const limitedNumbers = cleanNumbers.substring(0, 10);
-
-      let formatted = '+7';
-      if (limitedNumbers.length > 0) {
-        formatted += ' (' + limitedNumbers.substring(0, 3);
-      }
-      if (limitedNumbers.length >= 4) {
-        formatted += ') ' + limitedNumbers.substring(3, 6);
-      }
-      if (limitedNumbers.length >= 7) {
-        formatted += '-' + limitedNumbers.substring(6, 8);
-      }
-      if (limitedNumbers.length >= 9) {
-        formatted += '-' + limitedNumbers.substring(8, 10);
-      }
-
-      return formatted;
-    };
-
-    // Обработка ручного ввода
-    phoneInput.addEventListener('input', (e) => {
-      const oldValue = e.target.value;
-      const newValue = formatPhone(oldValue);
-      
-      e.target.value = newValue;
-
-      // Коррекция позиции курсора
-      if (e.target.selectionStart === oldValue.length) {
-        e.target.setSelectionRange(newValue.length, newValue.length);
-      }
-    });
-
-    // Обработка вставки из буфера обмена (Ctrl+V)
-    phoneInput.addEventListener('paste', (e) => {
-      setTimeout(() => {
-        e.target.value = formatPhone(e.target.value);
-      }, 0);
-    });
-
-    // Запрет на стирание префикса "+7 "
-    phoneInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && e.target.value.length <= 4) {
-        e.preventDefault();
-      }
-    });
-
-    // При фокусе, если поле пустое, сразу показываем начало маски
-    phoneInput.addEventListener('focus', (e) => {
-      if (!e.target.value || e.target.value === '+7') {
-        e.target.value = '+7 (';
-      }
-    });
-
-    // При потере фокуса проверяем, заполнен ли номер полностью (длина должна быть 18 символов)
-    phoneInput.addEventListener('blur', (e) => {
-      if (e.target.value.length < 18) { 
-        e.target.value = '';
-      }
-    });
-  }
-</script>

@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "sections": {
+    "collectionTypes": {
+      "groups": [
+        {
+          "id": "grp_faf3ca258e104604b9c988e9",
+          "children": [
+            {
+              "type": "contentType",
+              "uid": "api::category.category"
+            }
+          ],
+          "parent": null,
+          "name": "category"
+        },
+        {
+          "id": "grp_8ee13f2aa8cd4bdebb60c81d",
+          "children": [
+            {
+              "type": "contentType",
+              "uid": "api::product.product"
+            }
+          ],
+          "parent": null,
+          "name": "product"
+        },
+        {
+          "id": "grp_3770f566199340a9976480c1",
+          "children": [
+            {
+              "type": "contentType",
+              "uid": "api::lead.lead"
+            }
+          ],
+          "parent": null,
+          "name": "lead"
+        }
+      ]
+    },
+    "singleTypes": {
+      "groups": []
+    }
+  }
+}

@@ -1,181 +1,169 @@
 ---
-// ConsultationModal.astro - Единая форма обратной связи (модальное окно)
+// Компонент модального окна в стиле index.astro
 ---
-
 <div id="consultation-modal" class="modal-overlay">
   <div class="modal-content">
-    <button class="modal-close" aria-label="Закрыть">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-    
-    <h2 class="modal-title">Заказать консультацию</h2>
-    <p class="modal-subtitle">Оставьте заявку, и наш менеджер свяжется с вами в течение 15 минут</p>
-    
-    <form class="modal-form" data-netlify="true" name="modal-contact">
-      <div class="form-group">
-        <label for="modal-name" class="form-label">Ваше имя *</label>
-        <input type="text" id="modal-name" name="name" required class="form-input" placeholder="Иван Иванов" />
+
+    <button id="close-modal-btn" class="close-btn">&times;</button>
+
+    <h2>Заказать консультацию</h2>
+
+    <form id="lead-form" class="form">
+      <input type="hidden" id="lead-interest" name="interest" value="" />
+
+      <div class="form__group">
+        <label for="lead-name" class="form__label">Ваше имя *</label>
+        <input
+          type="text"
+          id="lead-name"
+          name="name"
+          required
+          class="form__input"
+          placeholder="Иван Иванов"
+        />
       </div>
-      
-      <div class="form-group">
-        <label for="modal-phone" class="form-label">Телефон *</label>
-        <!-- Добавлен pattern для валидации HTML5 и обновлен placeholder -->
-        <input 
-          type="tel" 
-          id="modal-phone" 
-          name="phone" 
-          required 
-          class="form-input" 
+
+      <div class="form__group">
+        <label for="lead-phone" class="form__label">Телефон *</label>
+        <input
+          type="tel"
+          id="lead-phone"
+          name="phone"
+          required
+          class="form__input"
           placeholder="+7 (___) ___-__-__"
           pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}"
           title="Введите номер в формате +7 (XXX) XXX-XX-XX"
         />
       </div>
-      
-      <div class="form-group">
-        <label for="modal-message" class="form-label">Комментарий (необязательно)</label>
-        <textarea id="modal-message" name="message" rows="3" class="form-textarea" placeholder="Какой тип оборудования вас интересует?"></textarea>
+
+      <div class="form__group">
+        <label for="lead-comment" class="form__label">Комментарий</label>
+        <textarea
+          id="lead-comment"
+          name="comment"
+          rows="4"
+          class="form__textarea"
+          placeholder="Опишите ваш вопрос или задачу..."
+        ></textarea>
       </div>
 
-      <button type="submit" class="btn btn--primary btn--full">Отправить заявку</button>
-      
-      <p class="form-privacy">
-        Нажимая кнопку, вы соглашаетесь с 
-        <a href="/privacy"> политикой конфиденциальности</a>
-      </p>
+      <button type="submit" class="btn btn--primary btn--full">
+        Отправить заявку
+      </button>
+
+      <p id="form-message" class="form-message"></p>
     </form>
   </div>
 </div>
 
 <style>
-  /* Фон-затемнение */
+  /* === БАЗОВЫЕ СТИЛИ ОКНА === */
   .modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(11, 31, 51, 0.7); /* #0B1F33 с прозрачностью */
-    display: flex;
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
     justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    padding: 1rem;
+    align-items: center;
+    backdrop-filter: blur(2px);
   }
 
-  /* Активное состояние модального окна */
-  .modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
+  .modal-overlay.show {
+    display: flex;
   }
 
-  /* Само окно */
   .modal-content {
-    background-color: #FFFFFF;
-    border-radius: 0.75rem;
+    background-color: #ffffff;
     padding: 2rem;
-    width: 100%;
+    border-radius: 0.75rem;
+    width: 90%;
     max-width: 500px;
     position: relative;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-    border: 1px solid #DCE3EB;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: sans-serif;
   }
 
-  .modal-overlay.active .modal-content {
-    transform: translateY(0);
-  }
-
-  /* Кнопка закрытия */
-  .modal-close {
+  .close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #5A6B7B;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    transition: color 0.2s, background-color 0.2s;
+    color: #888;
+    line-height: 1;
   }
 
-  .modal-close:hover {
+  .close-btn:hover {
     color: #111827;
-    background-color: #F5F7FA;
   }
 
-  .modal-title {
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
     font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
     color: #111827;
-    margin-bottom: 0.5rem;
-    text-align: center;
   }
 
-  .modal-subtitle {
-    font-size: 0.875rem;
-    color: #5A6B7B;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Стили формы (дублируем базовые для автономности компонента) */
-  .modal-form {
+  /* === СТИЛИ ФОРМЫ ИЗ INDEX.ASTRO === */
+  .form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .form-group {
+  .form__group {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
   }
 
-  .form-label {
+  .form__label {
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     color: #111827;
   }
 
-  .form-input,
-  .form-textarea {
+  .form__input,
+  .form__textarea {
     padding: 0.75rem 1rem;
     border: 1px solid #DCE3EB;
     border-radius: 0.5rem;
     font-size: 1rem;
     font-family: inherit;
     transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: #F5F7FA;
+    background-color: #F9FAFB;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .form-input:focus,
-  .form-textarea:focus {
+  .form__input:focus,
+  .form__textarea:focus {
     outline: none;
     border-color: #0F3D66;
     box-shadow: 0 0 0 3px rgba(15, 61, 102, 0.1);
     background-color: #FFFFFF;
   }
 
-  .form-textarea {
+  .form__textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 100px;
   }
 
   .btn {
     display: inline-block;
-    padding: 0.875rem 1.5rem;
+    padding: 0.875rem 1.75rem;
     border-radius: 0.5rem;
     font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
+    font-size: 1.125rem;
     text-align: center;
     transition: all 0.2s;
     border: none;
@@ -195,142 +183,151 @@
     width: 100%;
   }
 
-  .form-privacy {
-    font-size: 0.75rem;
-    color: #5A6B7B;
+  .form-message {
+    display: none;
     text-align: center;
-    margin-top: 0.5rem;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
   }
 
-  .form-privacy a {
-    color: #0F3D66;
-    text-decoration: none;
-  }
-
-  .form-privacy a:hover {
-    text-decoration: underline;
-  }
-
-  /* Блокировка прокрутки body при открытом модальном окне */
-  body.modal-open {
-    overflow: hidden;
-  }
+  .form-message.success { display: block; color: #2e7d32; }
+  .form-message.error { display: block; color: #c62828; }
 </style>
 
 <script>
-  // --- ЛОГИКА МАСКИ ТЕЛЕФОНА ---
-  const phoneInput = document.getElementById('modal-phone');
+  const modal = document.getElementById('consultation-modal');
+  const closeBtn = document.getElementById('close-modal-btn');
+  const form = document.getElementById('lead-form');
+  const interestInput = document.getElementById('lead-interest') as HTMLInputElement;
+  const messageEl = document.getElementById('form-message');
+  const phoneInput = document.getElementById('lead-phone') as HTMLInputElement;
 
+  // === ЛОГИКА ОТКРЫТИЯ И ЗАКРЫТИЯ ===
+  const setupModal = () => {
+    const openButtons = document.querySelectorAll('#open-modal-btn');
+
+    openButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const product = (e.currentTarget as HTMLButtonElement).getAttribute('data-product');
+        if (product && interestInput) {
+          interestInput.value = product;
+        }
+        modal?.classList.add('show');
+      });
+    });
+  };
+
+  const closeModal = () => {
+    modal?.classList.remove('show');
+    (form as HTMLFormElement)?.reset();
+    if(messageEl) messageEl.className = 'form-message';
+  };
+
+  closeBtn?.addEventListener('click', closeModal);
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // === МАСКА ТЕЛЕФОНА ===
   if (phoneInput) {
-    // Функция форматирования строки в вид +7 (XXX) XXX-XX-XX
-    const formatPhone = (value) => {
-      // Оставляем только цифры
+    const formatPhone = (value: string) => {
       const numbers = value.replace(/\D/g, '');
       if (!numbers) return '';
 
-      // Если пользователь ввел 8 или 7 в начале, отбрасываем этот символ, 
-      // так как +7 мы добавим принудительно
       let cleanNumbers = numbers;
       if (cleanNumbers.startsWith('8') || cleanNumbers.startsWith('7')) {
         cleanNumbers = cleanNumbers.substring(1);
       }
 
-      // Ограничиваем 10 цифрами (3 цифры кода + 7 цифр номера)
       const limitedNumbers = cleanNumbers.substring(0, 10);
-
       let formatted = '+7';
-      if (limitedNumbers.length > 0) {
-        formatted += ' (' + limitedNumbers.substring(0, 3);
-      }
-      if (limitedNumbers.length >= 4) {
-        formatted += ') ' + limitedNumbers.substring(3, 6);
-      }
-      if (limitedNumbers.length >= 7) {
-        formatted += '-' + limitedNumbers.substring(6, 8);
-      }
-      if (limitedNumbers.length >= 9) {
-        formatted += '-' + limitedNumbers.substring(8, 10);
-      }
+
+      if (limitedNumbers.length > 0) formatted += ' (' + limitedNumbers.substring(0, 3);
+      if (limitedNumbers.length >= 4) formatted += ') ' + limitedNumbers.substring(3, 6);
+      if (limitedNumbers.length >= 7) formatted += '-' + limitedNumbers.substring(6, 8);
+      if (limitedNumbers.length >= 9) formatted += '-' + limitedNumbers.substring(8, 10);
 
       return formatted;
     };
 
-    // Обработка ручного ввода
     phoneInput.addEventListener('input', (e) => {
-      const oldValue = e.target.value;
+      const target = e.target as HTMLInputElement;
+      const oldValue = target.value;
       const newValue = formatPhone(oldValue);
-      
-      e.target.value = newValue;
+      target.value = newValue;
 
-      // Коррекция позиции курсора, чтобы он не прыгал в начало при вводе в конец
-      if (e.target.selectionStart === oldValue.length) {
-        e.target.setSelectionRange(newValue.length, newValue.length);
+      if (target.selectionStart === oldValue.length) {
+        target.setSelectionRange(newValue.length, newValue.length);
       }
     });
 
-    // Обработка вставки из буфера обмена (Ctrl+V / Долгое нажатие на мобильном)
     phoneInput.addEventListener('paste', (e) => {
+      const target = e.target as HTMLInputElement;
       setTimeout(() => {
-        e.target.value = formatPhone(e.target.value);
+        target.value = formatPhone(target.value);
       }, 0);
     });
 
-    // Запрет на стирание префикса "+7 "
     phoneInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Backspace' && e.target.value.length <= 4) {
+      const target = e.target as HTMLInputElement;
+      if (e.key === 'Backspace' && target.value.length <= 4) {
         e.preventDefault();
       }
     });
 
-    // При фокусе, если поле пустое, сразу показываем начало маски
     phoneInput.addEventListener('focus', (e) => {
-      if (!e.target.value || e.target.value === '+7') {
-        e.target.value = '+7 (';
+      const target = e.target as HTMLInputElement;
+      if (!target.value || target.value === '+7') {
+        target.value = '+7 (';
       }
     });
 
-    // При потере фокуса проверяем, заполнен ли номер полностью (длина должна быть 18 символов)
-    // Если нет — очищаем поле, чтобы не отправить невалидные данные
     phoneInput.addEventListener('blur', (e) => {
-      if (e.target.value.length < 18) { 
-        e.target.value = '';
+      const target = e.target as HTMLInputElement;
+      if (target.value.length < 18) {
+        target.value = '';
       }
     });
   }
 
-  // --- ЛОГИКА МОДАЛЬНОГО ОКНА ---
-  const modal = document.getElementById('consultation-modal');
-  const closeBtn = modal?.querySelector('.modal-close');
-  const openBtns = document.querySelectorAll('.js-open-modal');
+  // === ОТПРАВКА ДАННЫХ В STRAPI ===
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const openModal = () => {
-    modal?.classList.add('active');
-    document.body.classList.add('modal-open');
-  };
+    const formData = new FormData(form as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      interest: formData.get('interest'),
+      comment: formData.get('comment'),
+    };
 
-  const closeModal = () => {
-    modal?.classList.remove('active');
-    document.body.classList.remove('modal-open');
-  };
+    try {
+      const response = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data }),
+      });
 
-  openBtns?.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal();
-    });
-  });
-
-  closeBtn?.addEventListener('click', closeModal);
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
+      if (response.ok) {
+        if(messageEl) {
+          messageEl.textContent = 'Заявка успешно отправлена!';
+          messageEl.className = 'form-message success';
+        }
+        (form as HTMLFormElement).reset();
+        setTimeout(() => closeModal(), 2500);
+      } else {
+        throw new Error('Ошибка сервера');
+      }
+    } catch (error) {
+      if(messageEl) {
+        messageEl.textContent = 'Произошла ошибка. Попробуйте позже.';
+        messageEl.className = 'form-message error';
+      }
     }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal?.classList.contains('active')) {
-      closeModal();
-    }
-  });
+  setupModal();
 </script>

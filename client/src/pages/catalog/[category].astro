@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// 1. Указываем Astro, какие страницы категорий существуют
+export async function getStaticPaths() {
+  const response = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/categories?populate=*`);
+  const json = await response.json();
+  const categories = json.data;
+
+  return categories.map((category) => {
+    return {
+      params: { category: category.slug },
+      props: { categoryData: category },
+    };
+  });
+}
+
+// 2. Получаем данные текущей категории из URL
+const { category } = Astro.params;
+const { categoryData } = Astro.props;
+
+// 3. Делаем запрос к API для получения товаров с их характеристиками
+const prodResponse = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/products?filters[category][slug][$eq]=${category}&populate=*`);
+const prodJson = await prodResponse.json();
+const products = prodJson.data;
+---
+
+<Layout title={categoryData.title}>
+  <main class="category-container">
+
+    {/* Хлебные крошки */}
+    <nav class="breadcrumbs">
+      <a href="/catalog">Каталог</a>
+      <span class="breadcrumbs-separator">&gt;</span>
+      <span class="breadcrumbs-current">{categoryData.title}</span>
+    </nav>
+
+    <h1 class="category-title">{categoryData.title}</h1>
+
+    {/* Сетка товаров */}
+    <div class="products-grid">
+
+      {products.length === 0 ? (
+        <p class="empty-message">В этой категории пока нет добавленных котлов.</p>
+      ) : (
+        products.map((product) => {
+          const { title, slug, price, image, power, area, efficiency, fuel_consumption } = product;
+          const imageUrl = image?.url ? `${import.meta.env.PUBLIC_STRAPI_URL}${image.url}` : '/placeholder.jpg';
+
+          // Проверяем, есть ли хотя бы одна характеристика
+          const hasSpecs = power || area || efficiency || fuel_consumption;
+
+          return (
+            <div class="product-card">
+
+              <div class="product-card__image-wrapper">
+                <span class="status-badge">В наличии</span>
+
+                {image?.url ? (
+                  <img src={imageUrl} alt={title} class="product-card__image" />
+                ) : (
+                  <span class="no-image-text">Нет фото</span>
+                )}
+              </div>
+
+              <h2 class="product-card__title">{title}</h2>
+
+              <p class="product-card__price">
+                {price ? `от ${price.toLocaleString('ru-RU')} ₸` : 'Цена по запросу'}
+              </p>
+
+              {/* Сетка характеристик - выводится только если есть данные */}
+              {hasSpecs && (
+                <div class="product-card__specs">
+                  {power && (
+                    <div class="spec-item">
+                      <span class="spec-label">Мощность:</span>
+                      <span class="spec-value">{power}</span>
+                    </div>
+                  )}
+                  {area && (
+                    <div class="spec-item">
+                      <span class="spec-label">Площадь:</span>
+                      <span class="spec-value">{area}</span>
+                    </div>
+                  )}
+                  {efficiency && (
+                    <div class="spec-item">
+                      <span class="spec-label">КПД:</span>
+                      <span class="spec-value">{efficiency}</span>
+                    </div>
+                  )}
+                  {fuel_consumption && (
+                    <div class="spec-item">
+                      <span class="spec-label">Расход:</span>
+                      <span class="spec-value">{fuel_consumption}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Кнопки действий */}
+              <div class="product-card__actions">
+                <a href={`/catalog/${category}/${slug}`} class="btn-more">
+                  Подробнее
+                </a>
+                <button
+                  id="open-modal-btn"
+                  class="btn-order"
+                  data-product={title}
+                >
+                  Заказать
+                </button>
+              </div>
+            </div>
+          );
+        })
+      )}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .category-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    font-family: sans-serif;
+  }
+
+  .breadcrumbs {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+  .breadcrumbs a {
+    color: #111827;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+    color: #C2410C;
+  }
+  .breadcrumbs-separator {
+    margin: 0 0.5rem;
+    color: #9ca3af;
+  }
+  .breadcrumbs-current {
+    color: #6b7280;
+  }
+
+  .category-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #111827;
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+  }
+
+  .empty-message {
+    color: #6b7280;
+    font-size: 1.125rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #E2E2E2;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    color: #000;
+  }
+
+  .product-card__image-wrapper {
+    position: relative;
+    height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .status-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #16A34A;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  .product-card__image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .product-card__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .product-card__price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .product-card__specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .spec-label {
+    color: #555555;
+  }
+
+  .spec-value {
+    color: #000000;
+  }
+
+  .product-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  /* Обновленные стили кнопок */
+  .btn-more, .btn-order {
+    flex: 1;
+    display: block;
+    text-align: center;
+    padding: 0.75rem 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 0.5rem; /* Сделали углы скругленными */
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s;
+  }
+
+  .btn-more {
+    background-color: #525252;
+  }
+  .btn-more:hover {
+    background-color: #404040;
+  }
+
+  .btn-order {
+    background-color: #C2410C; /* Фирменный оранжевый */
+  }
+  .btn-order:hover {
+    background-color: #9A3412;
+  }
+</style>

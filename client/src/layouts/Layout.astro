@@ -1,4 +1,7 @@
 ---
+import ConsultationModal from '../components/ConsultationModal.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 // Layout.astro - Базовый layout для всех страниц
 interface Props {
   title: string;
@@ -18,7 +21,10 @@ const { title, description = 'Газовые, паровые и твердото
     <title>{title} | VZmarket</title>
   </head>
   <body>
+    <Header />
     <slot />
+    <ConsultationModal />
+    <Footer />
   </body>
 </html>
 

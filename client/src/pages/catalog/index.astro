@@ -1,0 +1,126 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// Запрашиваем категории из Strapi
+const response = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/categories?populate=*`);
+const json = await response.json();
+const categories = json.data;
+---
+
+<Layout title="Каталог продукции">
+  <main class="catalog-container">
+    <h1 class="catalog-title">Каталог продукции</h1>
+
+    {/* Сетка категорий */}
+    <div class="catalog-grid">
+
+      {categories.map((category) => {
+        const { title, slug, image } = category;
+
+        // Формируем URL для картинки
+        const imageUrl = image?.url ? `${import.meta.env.PUBLIC_STRAPI_URL}${image.url}` : '/placeholder.jpg';
+
+        return (
+          <a href={`/catalog/${slug}`} class="category-card">
+            <div class="category-card__image-wrapper">
+              <img src={imageUrl} alt={title} class="category-card__image" />
+            </div>
+            <h2 class="category-card__title">{title}</h2>
+          </a>
+        );
+      })}
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Контейнер страницы */
+  .catalog-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    font-family: sans-serif;
+    min-height: 60vh; /* Делаем страницу выше, чтобы не было пустот */
+  }
+
+  /* Заголовок страницы */
+  .catalog-title {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #111827;
+    margin-bottom: 3rem;
+  }
+
+  /* Сетка карточек (центрируем и ограничиваем максимальную ширину) */
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    max-width: 1000px; /* Ограничиваем общую ширину сетки, чтобы 2-3 карточки не "растягивались" на весь экран */
+    margin: 0 auto;    /* Центрируем сетку по центру страницы */
+  }
+
+  /* Планшеты */
+  @media (min-width: 640px) {
+    .catalog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Десктопы (если категорий станет больше 3-4) */
+  @media (min-width: 1024px) {
+    .catalog-grid {
+      grid-template-columns: repeat(3, 1fr); /* Ставим максимум 3 колонки для каталога категорий, так они будут смотреться крупнее и солиднее */
+    }
+  }
+
+  /* Внешний вид карточки в стиле сайта */
+  .category-card {
+    display: block;
+    background-color: #E2E2E2; /* Светло-серый фон, как на карточках товаров */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .category-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+  }
+
+  /* Контейнер для изображений */
+  .category-card__image-wrapper {
+    height: 12rem;
+    background-color: #ffffff; /* Белый фон под картинкой для контраста */
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
+  }
+
+  .category-card__image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  /* Название категории */
+  .category-card__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #111827;
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+
+  .category-card:hover .category-card__title {
+    color: #C2410C; /* Фирменный оранжевый цвет при наведении */
+  }
+</style>
