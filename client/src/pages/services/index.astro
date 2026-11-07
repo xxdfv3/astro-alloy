@@ -1,33 +1,15 @@
 ---
-// src/pages/services.astro - Страница услуг
-import Layout from '../layouts/Layout.astro';
+// src/pages/index.astro - Страница услуг
+import Layout from '../../layouts/Layout.astro';
+import { servicesData } from '../../data/services.js';
 
-const services = [
-  {
-    title: 'Плазменная резка',
-    description: 'Высокоточная раскройка металла любой сложности на современном оборудовании с ЧПУ.',
-    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=800',
-    href: '/services/plasma-cutting'
-  },
-  {
-    title: 'Листогиб',
-    description: 'Гибка листового металла с высокой точностью по вашим чертежам и образцам.',
-    image: 'https://images.unsplash.com/photo-1565619624098-e65988448c7d?auto=format&fit=crop&q=80&w=800',
-    href: '/services/sheet-metal-bending'
-  },
-  {
-    title: 'Изготовление металлоконструкций',
-    description: 'Полный цикл производства каркасов, емкостей и нестандартных конструкций под ключ.',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800',
-    href: '/services/metal-structures'
-  },
-  {
-    title: 'Сварочные работы',
-    description: 'Профессиональная сварка любых металлов с гарантией качества швов.',
-    image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800',
-    href: '/services/welding'
-  }
-];
+// Преобразуем объект услуг в массив с формированием ссылки и описания
+const services = Object.entries(servicesData).map(([slug, service]) => ({
+  ...service,
+  slug,
+  href: `/services/${slug}`,
+  description: service.shortDesc,
+}));
 ---
 
 <Layout title="Наши услуги | VZmarket">
@@ -51,9 +33,9 @@ const services = [
         {services.map((service) => (
           <a href={service.href} class="service-card">
             <div class="service-card__image-wrapper">
-              <img 
-                src={service.image} 
-                alt={service.title} 
+              <img
+                src={service.image}
+                alt={service.title}
                 class="service-card__image"
                 loading="lazy"
               />
@@ -119,13 +101,13 @@ const services = [
   .services__grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Центрирует 4-ю карточку во втором ряду */
+    justify-content: center;
     gap: 2rem;
   }
 
   /* Карточка услуги */
   .service-card {
-    flex: 0 1 calc(33.333% - 1.34rem); /* Ровно 3 в ряд с учетом gap */
+    flex: 0 1 calc(33.333% - 1.34rem);
     min-width: 300px;
     background-color: #FFFFFF;
     border-radius: 0.75rem;
@@ -182,7 +164,7 @@ const services = [
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-    flex-grow: 1; /* Прижимает ссылку к низу */
+    flex-grow: 1;
   }
 
   .service-card__link {
@@ -202,7 +184,7 @@ const services = [
   /* Адаптивность */
   @media (max-width: 1024px) {
     .service-card {
-      flex: 0 1 calc(50% - 1rem); /* 2 в ряд на планшетах */
+      flex: 0 1 calc(50% - 1rem);
     }
   }
 
@@ -210,9 +192,9 @@ const services = [
     .hero {
       padding: 3rem 0;
     }
-    
+
     .hero__title {
-      font-size: 1.75rem; /* Меньше на мобильных, как мы делали на главной */
+      font-size: 1.75rem;
     }
 
     .hero__subtitle {
@@ -224,7 +206,7 @@ const services = [
     }
 
     .service-card {
-      flex: 0 1 100%; /* 1 в ряд на мобильных */
+      flex: 0 1 100%;
       min-width: auto;
     }
   }

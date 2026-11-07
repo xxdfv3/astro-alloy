@@ -1,31 +1,76 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// 1. Указываем Astro, какие страницы категорий существуют
-export async function getStaticPaths() {
-  const response = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/categories?populate=*`);
-  const json = await response.json();
-  const categories = json.data;
-
-  return categories.map((category) => {
-    return {
-      params: { category: category.slug },
-      props: { categoryData: category },
-    };
-  });
+interface StrapiImage {
+  url: string;
 }
 
-// 2. Получаем данные текущей категории из URL
+interface Product {
+  id?: number;
+  title: string;
+  slug: string;
+  price?: number;
+  power?: string;
+  area?: string;
+  efficiency?: string;
+  fuel_consumption?: string;
+  image?: StrapiImage;
+}
+
+interface Category {
+  id?: number;
+  title: string;
+  slug: string;
+}
+
+// 1. Указываем Astro, какие страницы категорий существуют
+export async function getStaticPaths() {
+  const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+
+  try {
+    const response = await fetch(`${strapiUrl}/api/categories?populate=*`);
+    if (!response.ok) {
+      throw new Error(`Ошибка загрузки категорий: ${response.statusText}`);
+    }
+    const json = await response.json();
+    const categories: Category[] = json?.data || [];
+
+    return categories.map((category) => ({
+      params: { category: category.slug },
+      props: { categoryData: category },
+    }));
+  } catch (error) {
+    console.error('Ошибка в getStaticPaths (категории):', error);
+    return [];
+  }
+}
+
+// 2. Получаем данные текущей категории из URL и props
 const { category } = Astro.params;
-const { categoryData } = Astro.props;
+const { categoryData } = Astro.props as { categoryData?: Category };
+
+if (!categoryData) {
+  return Astro.notFound();
+}
 
 // 3. Делаем запрос к API для получения товаров с их характеристиками
-const prodResponse = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/products?filters[category][slug][$eq]=${category}&populate=*`);
-const prodJson = await prodResponse.json();
-const products = prodJson.data;
+const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+let products: Product[] = [];
+
+try {
+  const prodResponse = await fetch(
+    `${strapiUrl}/api/products?filters[category][slug][$eq]=${category}&populate=*`
+  );
+  if (prodResponse.ok) {
+    const prodJson = await prodResponse.json();
+    products = prodJson?.data || [];
+  }
+} catch (error) {
+  console.error('Ошибка получения товаров категории:', error);
+}
 ---
 
-<Layout title={categoryData.title}>
+<Layout title={`${categoryData.title} | Каталог`}>
   <main class="category-container">
 
     {/* Хлебные крошки */}
@@ -39,16 +84,18 @@ const products = prodJson.data;
 
     {/* Сетка товаров */}
     <div class="products-grid">
-
       {products.length === 0 ? (
         <p class="empty-message">В этой категории пока нет добавленных котлов.</p>
       ) : (
         products.map((product) => {
           const { title, slug, price, image, power, area, efficiency, fuel_consumption } = product;
-          const imageUrl = image?.url ? `${import.meta.env.PUBLIC_STRAPI_URL}${image.url}` : '/placeholder.jpg';
+
+          const imageUrl = image?.url
+            ? (image.url.startsWith('http') ? image.url : `${strapiUrl}${image.url}`)
+            : '/placeholder.jpg';
 
           // Проверяем, есть ли хотя бы одна характеристика
-          const hasSpecs = power || area || efficiency || fuel_consumption;
+          const hasSpecs = Boolean(power || area || efficiency || fuel_consumption);
 
           return (
             <div class="product-card">
@@ -57,7 +104,7 @@ const products = prodJson.data;
                 <span class="status-badge">В наличии</span>
 
                 {image?.url ? (
-                  <img src={imageUrl} alt={title} class="product-card__image" />
+                  <img src={imageUrl} alt={title} class="product-card__image" loading="lazy" />
                 ) : (
                   <span class="no-image-text">Нет фото</span>
                 )}
@@ -105,9 +152,10 @@ const products = prodJson.data;
                   Подробнее
                 </a>
                 <button
-                  id="open-modal-btn"
-                  class="btn-order"
+                  type="button"
+                  class="btn-order js-open-modal"
                   data-product={title}
+                  data-service-name={title}
                 >
                   Заказать
                 </button>
@@ -125,13 +173,16 @@ const products = prodJson.data;
     max-width: 1280px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem;
-    font-family: sans-serif;
+    font-family: inherit;
   }
 
   .breadcrumbs {
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
     color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
   .breadcrumbs a {
     color: #111827;
@@ -143,7 +194,6 @@ const products = prodJson.data;
     color: #C2410C;
   }
   .breadcrumbs-separator {
-    margin: 0 0.5rem;
     color: #9ca3af;
   }
   .breadcrumbs-current {
@@ -217,6 +267,11 @@ const products = prodJson.data;
     object-fit: contain;
   }
 
+  .no-image-text {
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+
   .product-card__title {
     font-size: 1.25rem;
     font-weight: bold;
@@ -258,7 +313,6 @@ const products = prodJson.data;
     margin-top: auto;
   }
 
-  /* Обновленные стили кнопок */
   .btn-more, .btn-order {
     flex: 1;
     display: block;
@@ -269,7 +323,7 @@ const products = prodJson.data;
     color: white;
     text-decoration: none;
     border: none;
-    border-radius: 0.5rem; /* Сделали углы скругленными */
+    border-radius: 0.5rem;
     cursor: pointer;
     font-family: inherit;
     transition: background-color 0.2s;
@@ -283,9 +337,33 @@ const products = prodJson.data;
   }
 
   .btn-order {
-    background-color: #C2410C; /* Фирменный оранжевый */
+    background-color: #C2410C;
   }
   .btn-order:hover {
     background-color: #9A3412;
   }
 </style>
+
+<script>
+  // Делегированный обработчик клика для всех кнопок "Заказать" в сетке
+  document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    const btn = target?.closest('.btn-order, .js-open-modal');
+    if (btn) {
+      const productName = btn.getAttribute('data-product') || btn.getAttribute('data-service-name');
+      const interestInput = (document.getElementById('lead-interest') ||
+        document.getElementById('lead-comment') ||
+        document.getElementById('modal-message')) as HTMLInputElement | HTMLTextAreaElement | null;
+      const modal = document.getElementById('consultation-modal');
+
+      if (productName && interestInput) {
+        interestInput.value = productName;
+      }
+
+      if (modal) {
+        modal.classList.add('show');
+        modal.classList.remove('hidden');
+      }
+    }
+  });
+</script>

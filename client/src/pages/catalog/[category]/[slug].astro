@@ -1,36 +1,78 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 
-// 1. Получаем все товары с привязанными категориями и картинками для генерации ссылок
-export async function getStaticPaths() {
-  const response = await fetch(`${import.meta.env.PUBLIC_STRAPI_URL}/api/products?populate=*`);
-  const json = await response.json();
-  const products = json.data;
-
-  return products.map((product) => {
-    const categorySlug = product.category?.slug || 'uncategorized';
-
-    return {
-      params: { category: categorySlug, slug: product.slug },
-      props: { product },
-    };
-  });
+interface StrapiImage {
+  url: string;
 }
 
-// 2. Получаем данные конкретного товара из props
-const { product } = Astro.props;
+interface StrapiCategory {
+  title?: string;
+  slug?: string;
+}
+
+interface Product {
+  id?: number;
+  title: string;
+  slug: string;
+  price?: number;
+  power?: string;
+  area?: string;
+  efficiency?: string;
+  fuel_consumption?: string;
+  image?: StrapiImage;
+  category?: StrapiCategory;
+}
+
+// 1. Получаем все товары с привязанными категориями и картинками для генерации ссылок
+export async function getStaticPaths() {
+  const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+
+  try {
+    const response = await fetch(`${strapiUrl}/api/products?populate=*`);
+    if (!response.ok) {
+      throw new Error(`Ошибка загрузки товаров: ${response.statusText}`);
+    }
+
+    const json = await response.json();
+    const products: Product[] = json?.data || [];
+
+    return products.map((product) => {
+      const categorySlug = product.category?.slug || 'uncategorized';
+
+      return {
+        params: { category: categorySlug, slug: product.slug },
+        props: { product },
+      };
+    });
+  } catch (error) {
+    console.error('Ошибка в getStaticPaths:', error);
+    return [];
+  }
+}
+
+// 2. Получаем данные конкретного товара из props или params
+const { product } = Astro.props as { product?: Product };
 const { category } = Astro.params;
 
-// Распаковываем нужные поля
+if (!product) {
+  return Astro.notFound();
+}
+
+// Распаковываем нужные поля (Strapi v5)
 const { title, price, power, area, efficiency, fuel_consumption, image } = product;
-const imageUrl = image?.url ? `${import.meta.env.PUBLIC_STRAPI_URL}${image.url}` : '/placeholder.jpg';
+
+const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_URL || '';
+const imageUrl = image?.url
+  ? (image.url.startsWith('http') ? image.url : `${strapiBaseUrl}${image.url}`)
+  : '/placeholder.jpg';
+
 const categoryTitle = product.category?.title || 'Категория';
 
 // Проверяем наличие хотя бы одной характеристики
-const hasSpecs = power || area || efficiency || fuel_consumption;
+const hasSpecs = Boolean(power || area || efficiency || fuel_consumption);
 ---
 
-<Layout title={title}>
+<Layout title={`${title} | Каталог`}>
   <main class="product-container">
 
     {/* Хлебные крошки */}
@@ -50,7 +92,12 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
         <div class="product-image-wrapper">
           <span class="status-badge">В наличии</span>
           {image?.url ? (
-            <img src={imageUrl} alt={title} class="product-image" />
+            <img
+              src={imageUrl}
+              alt={title}
+              class="product-image"
+              loading="lazy"
+            />
           ) : (
             <span class="no-image-text">Нет фото</span>
           )}
@@ -99,11 +146,12 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
           </div>
         )}
 
-        {/* Кнопка заявки, которая вызывает ConsultationModal */}
+        {/* Кнопка вызова ConsultationModal */}
         <button
           id="open-modal-btn"
-          class="btn-order-large"
+          class="btn-order-large js-open-modal"
           data-product={title}
+          data-service-name={title}
         >
           Заказать консультацию
         </button>
@@ -113,12 +161,11 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
 </Layout>
 
 <style>
-  /* Контейнер страницы */
   .product-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem;
-    font-family: sans-serif;
+    font-family: inherit;
   }
 
   /* Хлебные крошки */
@@ -126,25 +173,32 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     margin-bottom: 2rem;
     font-size: 0.9rem;
     color: #6b7280;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
   }
+
   .breadcrumbs a {
     color: #111827;
     text-decoration: none;
     transition: color 0.2s;
   }
+
   .breadcrumbs a:hover {
     text-decoration: underline;
     color: #C2410C;
   }
+
   .breadcrumbs-separator {
-    margin: 0 0.5rem;
     color: #9ca3af;
   }
+
   .breadcrumbs-current {
     color: #6b7280;
   }
 
-  /* Основная сетка: 1 колонка на мобильных, 2 на десктопе */
+  /* Сетка страницы */
   .product-layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -168,7 +222,7 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 300px;
+    min-height: 350px;
   }
 
   .status-badge {
@@ -188,6 +242,11 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     height: auto;
     max-height: 400px;
     object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .product-image-wrapper:hover .product-image {
+    transform: scale(1.02);
   }
 
   .no-image-text {
@@ -195,7 +254,7 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     font-size: 1.1rem;
   }
 
-  /* Информация */
+  /* Информация о товаре */
   .product-title {
     font-size: 2.25rem;
     font-weight: bold;
@@ -211,7 +270,7 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     margin: 0 0 2rem 0;
   }
 
-  /* Характеристики */
+  /* Спецификации */
   .product-specs {
     margin-bottom: 2.5rem;
   }
@@ -257,17 +316,43 @@ const hasSpecs = power || area || efficiency || fuel_consumption;
     border-radius: 0.5rem;
     cursor: pointer;
     font-family: inherit;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
   }
 
   .btn-order-large:hover {
     background-color: #9A3412;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.25);
   }
 
   @media (min-width: 768px) {
     .btn-order-large {
       width: auto;
-      min-width: 250px;
+      min-width: 260px;
     }
   }
 </style>
+
+<script>
+  // Дублирующий fallback-обработчик клика на случай, если скрипт в ConsultationModal не перехватил кнопку
+  document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    const btn = target?.closest('#open-modal-btn, .js-open-modal');
+    if (btn) {
+      const modal = document.getElementById('consultation-modal');
+      const interestInput = (document.getElementById('lead-interest') || document.getElementById('lead-comment')) as HTMLInputElement | HTMLTextAreaElement | null;
+      const productName = btn.getAttribute('data-product') || btn.getAttribute('data-service-name');
+
+      if (productName && interestInput) {
+        if ('value' in interestInput) {
+          interestInput.value = productName;
+        }
+      }
+
+      if (modal) {
+        modal.classList.add('show');
+        modal.classList.remove('hidden');
+      }
+    }
+  });
+</script>

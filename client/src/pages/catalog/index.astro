@@ -14,7 +14,7 @@ const categories = json.data;
     {/* Сетка категорий */}
     <div class="catalog-grid">
 
-      {categories.map((category) => {
+      {categories.map((category: { title: any; slug: any; image: any; }) => {
         const { title, slug, image } = category;
 
         // Формируем URL для картинки

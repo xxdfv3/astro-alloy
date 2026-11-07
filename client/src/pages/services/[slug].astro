@@ -1,19 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ConsultationModal from '../../components/ConsultationModal.astro';
 import { servicesData } from '../../data/services.js';
 
+type ServiceSlug = keyof typeof servicesData;
+
 export const getStaticPaths = () => {
-  return Object.keys(servicesData).map((slug) => ({
+  return (Object.keys(servicesData) as ServiceSlug[]).map((slug) => ({
     params: { slug },
     props: { service: servicesData[slug] }
   }));
 };
 
 const { slug } = Astro.params;
-const currentService = Astro.props?.service || servicesData[slug];
+const currentService = Astro.props?.service || (slug ? servicesData[slug as ServiceSlug] : null);
 
 if (!currentService) {
   return Astro.notFound();
@@ -21,8 +20,8 @@ if (!currentService) {
 ---
 
 <Layout title={`${currentService.title} | VZmarket`}>
-  <Header />
 
+  <!-- Hero секция -->
   <section class="service-hero">
     <div class="container">
       <h1 class="service-hero__title">{currentService.title}</h1>
@@ -30,14 +29,15 @@ if (!currentService) {
     </div>
   </section>
 
+  <!-- Контентная часть услуги -->
   <section class="service-content">
     <div class="container">
       <div class="service-content__grid">
-        
+
         <div class="service-content__image-wrapper">
-          <img 
-            src={currentService.image} 
-            alt={currentService.title} 
+          <img
+            src={currentService.image}
+            alt={currentService.title}
             class="service-content__image"
             loading="lazy"
           />
@@ -45,8 +45,13 @@ if (!currentService) {
 
         <div class="service-content__text">
           <div class="service-content__description" set:html={currentService.fullDescription}></div>
-          
-          <button class="btn btn--primary btn--large js-open-modal" data-service-name={currentService.title}>
+
+          <button
+            id="open-modal-btn"
+            class="btn btn--primary btn--large js-open-modal"
+            data-product={currentService.title}
+            data-service-name={currentService.title}
+          >
             Заказать услугу
           </button>
         </div>
@@ -55,16 +60,45 @@ if (!currentService) {
     </div>
   </section>
 
-  <Footer />
-  <ConsultationModal />
 </Layout>
 
 <style>
   .service-hero {
     background: linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%);
     color: white;
-    padding: 4rem 0;
+    padding: 3.5rem 0;
     text-align: center;
+  }
+
+  /* Хлебные крошки */
+  .breadcrumbs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    color: #94A3B8;
+  }
+
+  .breadcrumbs a {
+    color: #CBD5E1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumbs a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+  }
+
+  .breadcrumbs-separator {
+    color: #64748B;
+  }
+
+  .breadcrumbs-current {
+    color: #FFFFFF;
+    font-weight: 500;
   }
 
   .service-hero__title {
@@ -75,10 +109,11 @@ if (!currentService) {
   }
 
   .service-hero__subtitle {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: #E5E7EB;
     max-width: 700px;
     margin: 0 auto;
+    line-height: 1.5;
   }
 
   .service-content {
@@ -102,12 +137,16 @@ if (!currentService) {
   .service-content__image-wrapper {
     border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E5E7EB;
+    background-color: #F8FAFC;
   }
 
   .service-content__image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    max-height: 480px;
+    object-fit: cover;
     display: block;
     transition: transform 0.5s ease;
   }
@@ -123,20 +162,17 @@ if (!currentService) {
   }
 
   .service-content__description {
-    font-size: 1.125rem;
+    font-size: 1.05rem;
     line-height: 1.7;
     color: #374151;
   }
 
-  .service-content__description p {
-    margin-bottom: 1.5rem;
+  /* Стилизация списков из HTML-разметки описания */
+  :global(.service-content__description p) {
+    margin-bottom: 1.25rem;
   }
 
-  .service-content__description p:last-child {
-    margin-bottom: 0;
-  }
-
-  .service-list {
+  :global(.service-content__description .service-list) {
     list-style: none;
     padding: 0;
     margin: 1.5rem 0;
@@ -145,18 +181,18 @@ if (!currentService) {
     gap: 0.75rem;
   }
 
-  .service-list li {
+  :global(.service-content__description .service-list li) {
     position: relative;
     padding-left: 1.75rem;
     color: #111827;
     font-weight: 500;
   }
 
-  .service-list li::before {
+  :global(.service-content__description .service-list li::before) {
     content: '';
     position: absolute;
     left: 0;
-    top: 0.6rem;
+    top: 0.55rem;
     width: 8px;
     height: 8px;
     background-color: #C2410C;
@@ -171,9 +207,10 @@ if (!currentService) {
     font-size: 1.125rem;
     text-decoration: none;
     text-align: center;
-    transition: all 0.2s;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
     border: none;
     cursor: pointer;
+    font-family: inherit;
   }
 
   .btn--primary {
@@ -184,12 +221,12 @@ if (!currentService) {
   .btn--primary:hover {
     background-color: #9A3412;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.3);
+    box-shadow: 0 4px 12px rgba(194, 65, 12, 0.25);
   }
 
   .btn--large {
-    padding: 1.25rem 2.5rem;
-    font-size: 1.25rem;
+    padding: 1.15rem 2.25rem;
+    font-size: 1.125rem;
     align-self: flex-start;
   }
 
@@ -197,7 +234,7 @@ if (!currentService) {
     .service-content__grid {
       grid-template-columns: 1fr 1fr;
     }
-    
+
     .service-hero__title {
       font-size: 3rem;
     }
@@ -205,9 +242,9 @@ if (!currentService) {
 
   @media (max-width: 640px) {
     .service-hero {
-      padding: 3rem 0;
+      padding: 2.5rem 0;
     }
-    
+
     .service-hero__title {
       font-size: 1.75rem;
     }
@@ -224,15 +261,21 @@ if (!currentService) {
 </style>
 
 <script>
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.js-open-modal');
+  document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    const btn = target?.closest('.js-open-modal, #open-modal-btn');
+
     if (btn) {
-      const serviceName = btn.getAttribute('data-service-name');
+      const serviceName = btn.getAttribute('data-service-name') || btn.getAttribute('data-product');
       if (serviceName) {
         setTimeout(() => {
-          const messageInput = document.getElementById('modal-message');
+          // Ищем текстовое поле комментария или сообщения в ConsultationModal
+          const messageInput = (document.getElementById('lead-comment') ||
+            document.getElementById('modal-message') ||
+            document.getElementById('page-message')) as HTMLTextAreaElement | HTMLInputElement | null;
+
           if (messageInput && !messageInput.value) {
-            messageInput.value = `Меня интересует услуга: "${serviceName}". Прошу связаться со мной для уточнения деталей. `;
+            messageInput.value = `Меня интересует услуга: "${serviceName}". Прошу связаться со мной для уточнения деталей.`;
             messageInput.focus();
             messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
           }
