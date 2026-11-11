@@ -59,8 +59,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
             <a href="tel:+77066300404" class="header__mobile-phone">8 (706) 630-04-04</a>
           </div>
           
-          <!-- ТА ЖЕ КНОПКА, ЧТО В ОРИГИНАЛЕ -->
-          <button id="open-modal-btn" class="header__btn open-modal-btn" data-product="Заявка из шапки сайта (Мобильный)">Заказать</button>
+          <button id="open-modal-btn" class="header__btn open-modal-btn header__btn--mobile" data-product="Заявка из шапки сайта (Мобильный)">Заказать</button>
         </nav>
       </div>
     </div>
@@ -89,22 +88,18 @@ import ConsultationModal from '../components/ConsultationModal.astro';
     btn?.addEventListener('click', openMenu);
     closeBtn?.addEventListener('click', closeMenu);
 
-    // Закрываем меню при клике на ссылки
-    document.querySelectorAll('.header__mobile-link, .header__mobile-phone').forEach(link => {
+    document.querySelectorAll('.header__mobile-link, .header__mobile-phone, .header__btn--mobile').forEach(link => {
       link?.addEventListener('click', closeMenu);
     });
 
-    // Клик на фон
     menu?.addEventListener('click', (e) => {
       if (e.target === menu) closeMenu();
     });
 
-    // Ресайз
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 1024 && menu?.classList.contains('active')) closeMenu();
     });
 
-    // Escape
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && menu?.classList.contains('active')) closeMenu();
     });
@@ -112,35 +107,70 @@ import ConsultationModal from '../components/ConsultationModal.astro';
 </script>
 
 <style>
+  /* === ПЛАВНАЯ ШКАЛА РАЗМЕРОВ (БЕЗ СКАЧКОВ) === */
   :root {
     --header-height: 64px;
     --pad-x: 1rem;
     --container-max: 100%;
     --logo-size: 40px;
-    --h1-size: 1.1rem;
-    --p-size: 0.7rem;
+    --h1-size: 1rem;       /* Было 1.1rem */
+    --p-size: 0.65rem;     /* Было 0.7rem */
   }
 
   @media (min-width: 576px) {
-    :root { --header-height: 72px; --pad-x: 1.5rem; --logo-size: 44px; }
+    :root { 
+      --header-height: 72px; 
+      --pad-x: 1.5rem; 
+      --logo-size: 42px;   /* Плавный рост +2px */
+      --h1-size: 1.05rem;  /* Плавный рост +0.05rem */
+      --p-size: 0.7rem;    /* Плавный рост +0.05rem */
+    }
   }
 
   @media (min-width: 768px) {
-    :root { --header-height: 76px; --pad-x: 2rem; --logo-size: 46px; --h1-size: 1.25rem; --p-size: 0.75rem; }
+    :root { 
+      --header-height: 76px; 
+      --pad-x: 2rem; 
+      --logo-size: 44px;   /* Плавный рост +2px */
+      --h1-size: 1.1rem;   /* Плавный рост +0.05rem (вместо резкого 1.25rem) */
+      --p-size: 0.75rem;   /* Плавный рост +0.05rem */
+    }
   }
 
   @media (min-width: 1024px) {
-    :root { --header-height: 80px; --pad-x: 2.5rem; --container-max: 1024px; --logo-size: 48px; }
+    :root { 
+      --header-height: 80px; 
+      --pad-x: 2.5rem; 
+      --container-max: 1024px; 
+      --logo-size: 46px;   /* Плавный рост +2px */
+      --h1-size: 1.15rem;  /* Плавный рост +0.05rem */
+      --p-size: 0.8rem;    /* Плавный рост +0.05rem */
+    }
   }
 
   @media (min-width: 1280px) {
-    :root { --header-height: 84px; --pad-x: 3rem; --container-max: 1280px; }
+    :root { 
+      --header-height: 84px; 
+      --pad-x: 3rem; 
+      --container-max: 1280px; 
+      --logo-size: 47px;   /* Плавный рост +1px */
+      --h1-size: 1.2rem;   /* Плавный рост +0.05rem */
+      --p-size: 0.85rem;   /* Плавный рост +0.05rem */
+    }
   }
 
   @media (min-width: 1600px) {
-    :root { --header-height: 90px; --pad-x: 4rem; --container-max: 1520px; }
+    :root { 
+      --header-height: 90px; 
+      --pad-x: 4rem; 
+      --container-max: 1520px; 
+      --logo-size: 48px;   /* Финальный размер как в оригинале */
+      --h1-size: 1.25rem;  /* Финальный размер */
+      --p-size: 0.9rem;    /* Финальный размер */
+    }
   }
 
+  /* === ДАЛЕЕ БЕЗ ИЗМЕНЕНИЙ В ЛОГИКЕ РАСПОЛОЖЕНИЯ === */
   .header {
     background-color: #0F3D66;
     color: white;
@@ -192,6 +222,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
     font-weight: 700;
     margin: 0;
     letter-spacing: 0.5px;
+    line-height: 1.2;
   }
 
   .header__logo-text p {
@@ -200,6 +231,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
     margin: 0;
     font-weight: 400;
     letter-spacing: 0.5px;
+    line-height: 1.2;
   }
 
   .header__nav {
@@ -217,7 +249,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
   }
 
   .header__nav-link:hover {
-    color: #0B2E4D;
+    color: #60A5FA;
   }
 
   .header__contacts {
@@ -257,7 +289,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
     border-radius: 0.5rem;
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
     border: none;
     cursor: pointer;
     font-family: inherit;
@@ -267,6 +299,7 @@ import ConsultationModal from '../components/ConsultationModal.astro';
 
   .header__btn:hover {
     background-color: #9A3412;
+    transform: translateY(-1px);
   }
 
   .header__mobile-btn {
@@ -384,12 +417,6 @@ import ConsultationModal from '../components/ConsultationModal.astro';
 
   .header__mobile-phone:hover {
     color: #60A5FA;
-  }
-
-  .header__mobile-desc {
-    display: block;
-    color: #9CA3AF;
-    font-size: 0.9375rem;
   }
 
   .header__btn--mobile {

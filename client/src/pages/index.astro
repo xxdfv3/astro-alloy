@@ -31,22 +31,19 @@ const categories = [
     title: 'Газовые котлы',
     description: 'Промышленные газовые котлы мощностью от 100 кВт до 10 МВт для отопления и технологических процессов',
     href: '/catalog/gas',
-    gradient: 'linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%)',
-    icon: 'M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z'
+    image: '/images/boiler-gas.jpg'
   },
   {
     title: 'Паровые котлы',
     description: 'Паровые котлы для промышленных предприятий с производительностью от 0.5 до 25 тонн пара в час',
     href: '/catalog/steam',
-    gradient: 'linear-gradient(135deg, #C2410C 0%, #9A3412 100%)',
-    icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'
+    image: '/images/boiler-steam.jpg'
   },
   {
     title: 'Твердотопливные котлы',
     description: 'Котлы на твердом топливе для отопления зданий и обеспечения горячего водоснабжения',
     href: '/catalog/solid',
-    gradient: 'linear-gradient(135deg, #15803D 0%, #166534 100%)',
-    icon: 'M13 10V3L4 14h7v7l9-11h-7z'
+    image: '/images/boiler-solid.jpg'
   }
 ];
 ---
@@ -65,7 +62,6 @@ const categories = [
         </p>
         <div class="hero__buttons">
           <a href="/catalog" class="btn btn--primary">Смотреть каталог</a>
-          <!-- ИСПРАВЛЕНО: только класс, без ID -->
           <button class="btn btn--secondary open-modal-btn" data-product="Консультация (главный экран)">
             Получить консультацию
           </button>
@@ -99,10 +95,7 @@ const categories = [
       <div class="categories__grid">
         {categories.map((cat) => (
           <a href={cat.href} class="category-card">
-            <div class="category-card__image" style={`background: ${cat.gradient}`}>
-              <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="white">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={cat.icon} />
-              </svg>
+            <div class="category-card__image" style={`background-image: url(${cat.image})`}>
             </div>
             <div class="category-card__content">
               <h3 class="category-card__title">{cat.title}</h3>
@@ -139,7 +132,6 @@ const categories = [
           Оставьте заявку и наш специалист свяжется с вами в течение 15 минут
         </p>
 
-        <!-- ИСПРАВЛЕНО: только класс, без ID. Модальное окно само его найдет -->
         <button class="btn btn--primary open-modal-btn" data-product="Вопрос внизу главной страницы">
           Написать нам
         </button>
@@ -152,15 +144,11 @@ const categories = [
     </div>
   </section>
 
-  <!-- Подключение компонента модального окна -->
   <ConsultationModal />
 
 </Layout>
 
 <style>
-  /* =========================================
-     1. ПЕРЕМЕННЫЕ (ФИКСИРОВАННЫЙ ОТСТУП 52px)
-     ========================================= */
   :root {
     --container-max: 100%;
     --container-pad-x: 1rem;
@@ -233,10 +221,6 @@ const categories = [
       --grid-gap: 3rem;
     }
   }
-
-  /* =========================================
-     2. ПРИМЕНЕНИЕ СТИЛЕЙ
-     ========================================= */
   
   .hero {
     background: linear-gradient(135deg, #0F3D66 0%, #0B2E4D 100%);
@@ -408,11 +392,15 @@ const categories = [
   }
 
   .category-card__image {
-    height: 12rem;
+    height: 16rem; /* Увеличили высоту */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background-size: contain !important; /* Показываем весь котел */
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: #F8FAFC; /* Светлый фон для контраста */
   }
 
   .category-card__content {

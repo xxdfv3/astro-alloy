@@ -225,34 +225,31 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
 
 <style>
   /* =========================================
-     1. ПЕРЕМЕННЫЕ ПОД 6 РАЗМЕРОВ ЭКРАНА
+     1. ПЕРЕМЕННЫЕ (ИСПРАВЛЕНО: --about-h1-size вместо --h1-size)
      ========================================= */
   :root {
-    /* XS: 375px (Мобильные) */
     --pad-x: 1rem;
     --section-pad-y: 2.5rem;
     --grid-gap: 1rem;
     --adv-cols: 1;
-    --h1-size: 1.75rem;
+    --about-h1-size: 1.75rem; /* <-- ИСПРАВЛЕНО ЗДЕСЬ */
     --title-size: 1.5rem;
     --cert-pad: 1.5rem;
     --cert-item-pad: 1rem;
   }
 
-  /* SM: 576px (Большие мобильные) */
   @media (min-width: 576px) {
     :root {
       --pad-x: 1.5rem;
       --section-pad-y: 3rem;
       --grid-gap: 1.25rem;
-      --adv-cols: 2; /* 2 колонки преимуществ */
-      --h1-size: 2rem;
+      --adv-cols: 2;
+      --about-h1-size: 2rem; /* <-- ИСПРАВЛЕНО ЗДЕСЬ */
       --title-size: 1.625rem;
       --cert-pad: 2rem;
     }
   }
 
-  /* MD: 768px (Планшеты) */
   @media (min-width: 768px) {
     :root {
       --pad-x: 2rem;
@@ -264,42 +261,39 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     }
   }
 
-  /* LG: 1024px (Ноутбуки) */
   @media (min-width: 1024px) {
     :root {
       --pad-x: 2.5rem;
       --section-pad-y: 4rem;
       --grid-gap: 2rem;
-      --adv-cols: 3; /* 3 колонки преимуществ */
-      --h1-size: 2.5rem;
+      --adv-cols: 3;
+      --about-h1-size: 2.5rem; /* <-- ИСПРАВЛЕНО ЗДЕСЬ */
       --title-size: 1.875rem;
     }
   }
 
-  /* XL: 1280px (Стандартный десктоп) */
   @media (min-width: 1280px) {
     :root {
       --pad-x: 3rem;
       --section-pad-y: 4.5rem;
       --grid-gap: 2.5rem;
-      --h1-size: 2.75rem;
+      --about-h1-size: 2.75rem; /* <-- ИСПРАВЛЕНО ЗДЕСЬ */
     }
   }
 
-  /* XXL: 1600px+ (Большие мониторы) */
   @media (min-width: 1600px) {
     :root {
       --pad-x: 4rem;
       --section-pad-y: 5rem;
       --grid-gap: 3rem;
-      --h1-size: 3rem;
+      --about-h1-size: 3rem; /* <-- ИСПРАВЛЕНО ЗДЕСЬ */
       --title-size: 2rem;
       --cert-pad: 3rem;
     }
   }
 
   /* =========================================
-     2. ПРИМЕНЕНИЕ СТИЛЕЙ (с фолбэками для переменных темы)
+     2. ПРИМЕНЕНИЕ СТИЛЕЙ
      ========================================= */
   
   .about-page {
@@ -313,14 +307,13 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     padding: 0 var(--pad-x);
   }
 
-  /* Hero секция */
   .hero {
     text-align: center;
     margin-bottom: var(--section-pad-y);
   }
 
   .hero h1 {
-    font-size: var(--h1-size);
+    font-size: var(--about-h1-size); /* <-- ИСПРАВЛЕНО ЗДЕСЬ (используем новую переменную) */
     font-weight: 800;
     color: var(--accent-dark, #0F3D66);
     margin-bottom: 1.5rem;
@@ -344,7 +337,6 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     font-weight: 600;
   }
 
-  /* Заголовки секций */
   .section-title {
     font-size: var(--title-size);
     font-weight: 700;
@@ -354,7 +346,6 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     border-bottom: 2px solid var(--border-color, #E5E7EB);
   }
 
-  /* Сетка преимуществ */
   .advantages-grid {
     display: grid;
     grid-template-columns: repeat(var(--adv-cols), 1fr);
@@ -392,7 +383,6 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     margin: 0;
   }
 
-  /* Секция сертификатов */
   .certificates-section {
     background: var(--bg-card, #FFFFFF);
     border: 1px solid var(--border-color, #E5E7EB);
@@ -409,7 +399,6 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     font-size: 1rem;
   }
 
-  /* Аккордеон <details> */
   .cert-category {
     margin-bottom: 1.5rem;
     border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -535,17 +524,11 @@ import PortfolioSlider from '../components/PortfolioSlider.astro';
     transform: scale(0.97);
   }
 
-  /* Заключение */
   .closing-section {
     margin-top: var(--section-pad-y);
     text-align: center;
   }
 
-  /* =========================================
-     3. ТОЧЕЧНАЯ АДАПТАЦИЯ ЭЛЕМЕНТОВ
-     ========================================= */
-  
-  /* На маленьких экранах кнопка скачивания уходит под текст */
   @media (max-width: 575px) {
     .cert-item {
       flex-direction: column;
