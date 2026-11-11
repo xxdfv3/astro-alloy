@@ -1,270 +1,257 @@
 ---
-// Footer.astro - Подвал сайта
+// Footer.astro
 ---
 
 <footer class="footer">
   <div class="container">
-    
-    <!-- Основная сетка из 3 колонок -->
     <div class="footer__grid">
-      <div class="footer__spacer"></div>
-      <!-- 1 колонка: Навигация -->
-      <div class="footer__col">
-        <h3 class="footer__title">Навигация</h3>
-        <ul class="footer__list">
-          <li><a href="/catalog" class="footer__link">Каталог оборудования</a></li>
-          <li><a href="/services" class="footer__link">Наши услуги</a></li>
-          <li><a href="/about" class="footer__link">О компании</a></li>
-          <li><a href="/contacts" class="footer__link">Контакты</a></li>
-        </ul>
-      </div>
-
-      <!-- 2 колонка: Адрес и время работы -->
-      <div class="footer__col">
-        <h3 class="footer__title">Контакты</h3>
-
+      
+      <!-- 1 колонка: Адрес и режим работы -->
+      <div class="footer__col footer__col--left">
         <div class="footer__info-group">
-          <span class="footer__label">Наш адрес</span>
+          <span class="footer__label">Адрес</span>
           <p class="footer__text">г. Костанай, ул. Дорожников, д. 2</p>
         </div>
-
         <div class="footer__info-group">
           <span class="footer__label">Режим работы</span>
-          <p class="footer__text">Пн-Сб: 9:00 - 19:00<br/>Вс: выходной</p>
+          <p class="footer__text">Пн-Сб: 9:00 - 19:00 <span class="footer__divider">|</span> Вс: выходной</p>
         </div>
       </div>
 
-      <!-- 3 колонка: Телефоны и соцсети -->
-      <div class="footer__col footer__col--contacts">
-        <div class="footer__phones">
+      <!-- 2 колонка: Телефон и почта -->
+      <div class="footer__col footer__col--center">
+        <div class="footer__info-group">
+          <span class="footer__label">Свяжитесь с нами</span>
           <a href="tel:+77066300404" class="footer__phone">8 (706) 630-04-04</a>
+        </div>
+        <div class="footer__info-group">
           <a href="mailto:vzmarket.shop@gmail.com" class="footer__email">vzmarket.shop@gmail.com</a>
         </div>
+      </div>
 
-        <div class="footer__social-block">
-          <span class="footer__label">Мы в соц сетях</span>
-          <div class="footer__social">
-            <a href="https://t.me/Aleksandr_921" aria-label="Telegram" class="footer__social-link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121L8.32 13.617l-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-              </svg>
-            </a>
-            <a href="https://wa.me/77476555343" aria-label="WhatsApp" class="footer__social-link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-            </a>
-            <a href="https://www.instagram.com/vzplazma/" aria-label="Instagram" class="footer__social-link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-              </svg>
-            </a>
-          </div>
+      <!-- 3 колонка: Соцсети -->
+      <div class="footer__col footer__col--right">
+        <span class="footer__label">Мы в соц. сетях</span>
+        <div class="footer__social">
+          <a href="https://t.me/Aleksandr_921" aria-label="Telegram" class="footer__social-link" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121L8.32 13.617l-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/77476555343" aria-label="WhatsApp" class="footer__social-link" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/vzplazma/" aria-label="Instagram" class="footer__social-link" target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
         </div>
       </div>
 
-    </div>
+      <!-- Нижняя панель: растягивается на всю ширину -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">© {new Date().getFullYear()} VZmarket. Все права защищены.</p>
+        <a href="/privacy" class="footer__link--privacy">Политика конфиденциальности</a>
+      </div>
 
-    <!-- НИЖНЯЯ ПАНЕЛЬ: Копирайт и политика -->
-    <div class="footer__brand-bottom">
-      <p class="footer__copyright">© {new Date().getFullYear()} VZmarket. Все права защищены.</p>
-      <a href="/privacy" class="footer__link footer__link--privacy">Политика конфиденциальности</a>
     </div>
-
   </div>
 </footer>
 
 <style>
+  :root {
+    --footer-bg: #0F3D66;
+    --footer-text: #D1D5DB;
+    --footer-text-muted: #9CA3AF;
+    --footer-accent: #60A5FA;
+    --footer-padding-y: 1.25rem;
+  }
+
   .footer {
-    background-color: #0F3D66;
-    color: white;
-    margin-top: 3rem;
-    padding: 3rem 0 2rem 0;
-    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--footer-bg);
+    color: #ffffff;
+    margin-top: auto;
+    padding: var(--footer-padding-y) 0;
+    font-family: 'PT Astra Sans', 'Liberation Sans', system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
   }
 
   .container {
-    max-width: 1280px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 clamp(1rem, 4vw, 4rem);
     margin: 0 auto;
-    padding: 0 3rem; /* Увеличен общий боковой отступ (было 1.5rem) */
   }
 
-  /* Сетка из 3 колонок с выравниванием по центру */
+  /* Сетка: по умолчанию 1 колонка (мобильные) */
   .footer__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .footer__spacer {
-  display: none; /* Скрыт на мобильных */
-  }
-
-  /* Общие стили секций */s
-  .footer__title {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: white;
-  }
-
-  /* Списки навигации */
-  .footer__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
     gap: 1rem;
+    text-align: center;
   }
 
-  .footer__link {
-    color: #D1D5DB;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.2s ease;
+  /* === ДЕСКТОП: смещение на 60px и компактные отступы === */
+  @media (min-width: 768px) {
+    .footer__grid {
+      /* 5 колонок: 60px отступ | 3 колонки контента | 60px отступ */
+      grid-template-columns: 60px 1fr 1fr 1fr 60px;
+      align-items: center;
+      column-gap: 2rem; /* Расстояние между колонками */
+      row-gap: 0.5rem;  /* Минимальное расстояние до нижней панели */
+      text-align: left;
+    }
+
+    /* Позиционирование колонок */
+    .footer__col--left {
+      grid-column: 2;
+      text-align: left;
+    }
+    .footer__col--center {
+      grid-column: 3;
+      text-align: center;
+    }
+    .footer__col--right {
+      grid-column: 4;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .footer__col--right .footer__social {
+      justify-content: flex-end;
+    }
   }
 
-  .footer__link:hover {
-    color: white;
+  /* Мобильная адаптация */
+  @media (max-width: 767px) {
+    .footer__col--right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .footer__social {
+      justify-content: center;
+    }
   }
 
-  /* Блоки с текстом */
   .footer__info-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
   }
-
   .footer__info-group:last-child {
     margin-bottom: 0;
   }
 
   .footer__label {
     display: block;
-    font-size: 0.8rem;
-    color: #9CA3AF;
-    margin-bottom: 0.25rem;
+    font-size: 0.7rem;
+    color: var(--footer-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
   }
 
   .footer__text {
-    color: #D1D5DB;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    color: var(--footer-text);
     margin: 0;
+    line-height: 1.3;
+    font-size: 0.85rem;
   }
 
-  /* Правая колонка с контактами и соцсетями */
-  .footer__phones {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
+  .footer__divider {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 0.4rem;
   }
 
-  .footer__phone, .footer__email {
-    color: white;
+  .footer__phone {
+    display: block;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.2;
     transition: color 0.2s;
   }
 
   .footer__email {
-    font-size: 0.95rem;
-    font-weight: 400;
-    color: #D1D5DB;
+    color: var(--footer-text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
   }
 
-  .footer__phone:hover, .footer__email:hover {
-    color: #60A5FA;
-  }
-
-  /* Социальные сети */
-  .footer__social-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  .footer__phone:hover,
+  .footer__email:hover {
+    color: var(--footer-accent);
   }
 
   .footer__social {
     display: flex;
     gap: 0.75rem;
+    margin-top: 0.25rem;
   }
 
   .footer__social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    color: white;
-    transition: all 0.3s ease;
+    color: #ffffff;
+    transition: all 0.2s ease;
   }
 
   .footer__social-link:hover {
-    border-color: white;
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    border-color: var(--footer-accent);
+    color: var(--footer-accent);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 
-  /* === СТИЛИ ДЛЯ НИЖНЕЙ ПАНЕЛИ === */
-  .footer__brand-bottom {
-    margin-top: 3.5rem;
-    padding-top: 2rem;
-    padding-left: 5rem; /* Синхронизирован с отступом сетки выше */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  /* === НИЖНЯЯ ПАНЕЛЬ (максимально приближена к колонкам) === */
+  .footer__bottom {
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    text-align: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;    /* Уменьшено */
+    padding-top: 0.75rem;  /* Уменьшено */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 0.5rem;    /* Уменьшено с 1.25rem */
+      padding-top: 0.75rem;  /* Уменьшено с 1.25rem */
+    }
   }
 
   .footer__copyright {
-    color: #9CA3AF;
-    font-size: 0.875rem;
-    line-height: 1.5;
+    color: var(--footer-text-muted);
+    font-size: 0.8rem;
     margin: 0;
+    line-height: 1.2;
   }
 
   .footer__link--privacy {
-    font-size: 0.875rem;
-    color: #9CA3AF;
+    color: var(--footer-text-muted);
+    font-size: 0.8rem;
     text-decoration: underline;
     text-decoration-color: rgba(209, 213, 219, 0.3);
-    text-underline-offset: 4px;
+    text-underline-offset: 3px;
     transition: color 0.2s, text-decoration-color 0.2s;
   }
 
   .footer__link--privacy:hover {
-    color: white;
-    text-decoration-color: white;
-  }
-
-  /* Адаптивность для планшетов и десктопов (ровно 3 колонки) */
-  @media (min-width: 768px) {
-    .footer__grid {
-      grid-template-columns: 2rem repeat(3, 1fr); /* Первая колонка — отступ */
-    }
-    
-    .footer__spacer {
-      display: block;
-    }
-
-    .footer__brand-bottom {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
-    }
-  }
-  @media (min-width: 430) {
-    .footer {
-      margin-top: 2rem;
-      padding: 2rem 0 2rem 0;
-    }
+    color: #ffffff;
+    text-decoration-color: #ffffff;
   }
 </style>

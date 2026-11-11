@@ -1,6 +1,4 @@
----
-// Компонент модального окна в стиле index.astro
----
+
 <div id="consultation-modal" class="modal-overlay">
   <div class="modal-content">
 
@@ -205,7 +203,7 @@
 
   // === ЛОГИКА ОТКРЫТИЯ И ЗАКРЫТИЯ ===
   const setupModal = () => {
-    const openButtons = document.querySelectorAll('#open-modal-btn');
+    const openButtons = document.querySelectorAll('.open-modal-btn');
 
     openButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {

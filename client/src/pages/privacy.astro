@@ -57,7 +57,7 @@ import Layout from '../layouts/Layout.astro';
         <section class="highlight-section">
           <h2>5. Право на отказ от уведомлений</h2>
           <p>
-            ТОО «VZboilers»» имеет право отправлять Пользователю информационные и рекламные сообщения. 
+            ТОО «VZboilers» имеет право отправлять Пользователю информационные и рекламные сообщения. 
             Однако мы уважаем ваше право на получение только нужной и ожидаемой информации.
           </p>
           <p>
@@ -82,7 +82,7 @@ import Layout from '../layouts/Layout.astro';
               <a href="mailto:vzmarket.shop@gmail.com">vzmarket.shop@gmail.com</a>
             </li>
             <li>
-              <strong>Юридическое лицо:</strong> ТОО «VZboilers»»
+              <strong>Юридическое лицо:</strong> ТОО «VZboilers»
             </li>
           </ul>
         </section>
@@ -93,77 +93,179 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  /* =========================================
+     1. ПЕРЕМЕННЫЕ ПОД 6 РАЗМЕРОВ ЭКРАНА
+     ========================================= */
+  :root {
+    /* XS: 375px (Мобильные) */
+    --page-pad-y: 2rem;
+    --container-pad-x: 1rem;
+    --content-max-w: 100%;
+    --content-pad: 1.5rem;
+    --title-size: 1.75rem;
+    --h2-size: 1.25rem;
+    --text-size: 1rem;
+    --section-gap: 2rem;
+  }
+
+  /* SM: 576px (Большие мобильные) */
+  @media (min-width: 576px) {
+    :root {
+      --container-pad-x: 1.5rem;
+      --content-pad: 2rem;
+      --title-size: 2rem;
+      --section-gap: 2.5rem;
+    }
+  }
+
+  /* MD: 768px (Планшеты) */
+  @media (min-width: 768px) {
+    :root {
+      --page-pad-y: 3rem;
+      --container-pad-x: 2rem;
+      --content-max-w: 700px;
+      --content-pad: 2.5rem;
+      --title-size: 2.25rem;
+      --h2-size: 1.375rem;
+    }
+  }
+
+  /* LG: 1024px (Ноутбуки) */
+  @media (min-width: 1024px) {
+    :root {
+      --page-pad-y: 4rem;
+      --container-pad-x: 2.5rem;
+      --content-max-w: 800px;
+      --content-pad: 3rem;
+      --h2-size: 1.5rem;
+      --section-gap: 3rem;
+    }
+  }
+
+  /* XL: 1280px (Стандартный десктоп) */
+  @media (min-width: 1280px) {
+    :root {
+      --container-pad-x: 3rem;
+      --content-max-w: 850px;
+      --title-size: 2.5rem;
+    }
+  }
+
+  /* XXL: 1600px+ (Большие мониторы) */
+  @media (min-width: 1600px) {
+    :root {
+      --page-pad-y: 5rem;
+      --container-pad-x: 4rem;
+      --content-max-w: 900px; /* Ограничиваем ширину строки для комфортного чтения */
+      --content-pad: 3.5rem;
+      --title-size: 2.75rem;
+      --h2-size: 1.625rem;
+      --text-size: 1.0625rem; /* Чуть крупнее текст для больших экранов */
+    }
+  }
+
+  /* =========================================
+     2. ПРИМЕНЕНИЕ СТИЛЕЙ
+     ========================================= */
+  
   .privacy-page {
-    padding: 4rem 0;
+    padding: var(--page-pad-y) 0;
     background-color: #F5F7FA;
+    font-family: 'PT Astra Sans', 'Liberation Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  .container {
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 0 var(--container-pad-x);
   }
 
   .privacy-content {
-    max-width: 800px;
+    max-width: var(--content-max-w);
     margin: 0 auto;
     background-color: #FFFFFF;
-    padding: 3rem;
+    padding: var(--content-pad);
     border-radius: 0.75rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     border: 1px solid #DCE3EB;
   }
 
   .page-title {
-    font-size: 2.25rem;
-    font-weight: 700;
+    font-size: var(--title-size);
+    font-weight: 800;
     color: #111827;
     margin-bottom: 0.5rem;
     text-align: center;
+    line-height: 1.2;
   }
 
+  /* Если в будущем добавится дата обновления, стиль уже готов */
   .last-updated {
     text-align: center;
-    color: #5A6B7B;
+    color: #6B7280;
     font-size: 0.875rem;
     margin-bottom: 3rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid #DCE3EB;
+    border-bottom: 1px solid #E5E7EB;
   }
 
   .privacy-content section {
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--section-gap);
+  }
+
+  .privacy-content section:last-child {
+    margin-bottom: 0;
   }
 
   .privacy-content h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: var(--h2-size);
+    font-weight: 700;
     color: #0F3D66;
     margin-bottom: 1rem;
+    line-height: 1.3;
   }
 
   .privacy-content p {
-    color: #5A6B7B;
-    line-height: 1.7;
+    color: #4B5563;
+    line-height: 1.8; /* Увеличенный интервал для удобства чтения юридического текста */
     margin-bottom: 1rem;
-    font-size: 1rem;
+    font-size: var(--text-size);
+  }
+
+  .privacy-content p:last-child {
+    margin-bottom: 0;
   }
 
   .privacy-content ul {
-    color: #5A6B7B;
-    line-height: 1.7;
+    color: #4B5563;
+    line-height: 1.8;
     margin-bottom: 1rem;
     padding-left: 1.5rem;
+    font-size: var(--text-size);
   }
 
   .privacy-content li {
     margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  /* Кастомные маркеры списков для более аккуратного вида */
+  .privacy-content ul:not(.contact-list) li::marker {
+    color: #C2410C;
+    font-weight: bold;
   }
 
   .privacy-content a {
     color: #0F3D66;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+    transition: color 0.2s, border-color 0.2s;
   }
 
   .privacy-content a:hover {
-    border-bottom-color: #0F3D66;
+    color: #C2410C;
+    border-bottom-color: #C2410C;
   }
 
   /* Выделение важного блока про отказ от рассылки */
@@ -174,22 +276,33 @@ import Layout from '../layouts/Layout.astro';
     border-left: 4px solid #0F3D66;
   }
 
+  @media (min-width: 768px) {
+    .highlight-section {
+      padding: 2rem;
+    }
+  }
+
+  .highlight-section h2 {
+    margin-top: 0;
+  }
+
   .contact-list {
     list-style: none;
     padding: 0;
+    margin-top: 1rem;
   }
 
   .contact-list li {
     margin-bottom: 0.75rem;
+    font-size: var(--text-size);
+    color: #4B5563;
   }
 
-  @media (max-width: 768px) {
-    .privacy-content {
-      padding: 1.5rem;
-    }
-    
-    .page-title {
-      font-size: 1.75rem;
-    }
+  .contact-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-list strong {
+    color: #111827;
   }
 </style>

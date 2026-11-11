@@ -169,11 +169,83 @@ try {
 </Layout>
 
 <style>
+  /* =========================================
+     1. ПЕРЕМЕННЫЕ ПОД 6 РАЗМЕРОВ ЭКРАНА
+     ========================================= */
+  :root {
+    /* XS: 375px (Мобильные) */
+    --pad-x: 1rem;
+    --pad-y: 2rem;
+    --grid-cols: 1;
+    --grid-gap: 1rem;
+    --card-pad: 1rem;
+    --img-h: 10rem;
+    --title-size: 1.75rem;
+  }
+
+  /* SM: 576px (Большие мобильные) */
+  @media (min-width: 576px) {
+    :root {
+      --pad-x: 1.5rem;
+      --grid-cols: 2; /* 2 колонки для лучшего использования пространства */
+      --grid-gap: 1.25rem;
+      --img-h: 12rem;
+      --title-size: 2rem;
+    }
+  }
+
+  /* MD: 768px (Планшеты) */
+  @media (min-width: 768px) {
+    :root {
+      --pad-x: 2rem;
+      --pad-y: 3rem;
+      --grid-gap: 1.5rem;
+      --card-pad: 1.25rem;
+    }
+  }
+
+  /* LG: 1024px (Ноутбуки) */
+  @media (min-width: 1024px) {
+    :root {
+      --pad-x: 2.5rem;
+      --grid-cols: 3; /* Оптимально для каталога: карточки крупные и солидные */
+      --grid-gap: 2rem;
+      --img-h: 14rem;
+      --title-size: 2.25rem;
+    }
+  }
+
+  /* XL: 1280px (Стандартный десктоп) */
+  @media (min-width: 1280px) {
+    :root {
+      --pad-x: 3rem;
+      --pad-y: 4rem;
+      --grid-gap: 2.5rem;
+      --card-pad: 1.5rem;
+    }
+  }
+
+  /* XXL: 1600px+ (Большие мониторы) */
+  @media (min-width: 1600px) {
+    :root {
+      --pad-x: 4rem;
+      --grid-cols: 4; /* На широких экранах 4 колонки выглядят лучше, чем 3 растянутых */
+      --grid-gap: 3rem;
+      --img-h: 16rem;
+      --title-size: 2.5rem;
+    }
+  }
+
+  /* =========================================
+     2. ПРИМЕНЕНИЕ СТИЛЕЙ
+     ========================================= */
+  
   .category-container {
-    max-width: 1280px;
+    max-width: 1520px;
     margin: 0 auto;
-    padding: 2.5rem 1.5rem;
-    font-family: inherit;
+    padding: var(--pad-y) var(--pad-x);
+    font-family: 'PT Astra Sans', 'Liberation Sans', system-ui, -apple-system, sans-serif;
+    min-height: 60vh;
   }
 
   .breadcrumbs {
@@ -183,88 +255,110 @@ try {
     display: flex;
     align-items: center;
     gap: 0.35rem;
+    flex-wrap: wrap;
   }
+
   .breadcrumbs a {
     color: #111827;
     text-decoration: none;
     transition: color 0.2s;
   }
+
   .breadcrumbs a:hover {
     text-decoration: underline;
     color: #C2410C;
   }
+
   .breadcrumbs-separator {
     color: #9ca3af;
   }
+
   .breadcrumbs-current {
     color: #6b7280;
   }
 
   .category-title {
-    font-size: 2.25rem;
-    font-weight: bold;
+    font-size: var(--title-size);
+    font-weight: 800;
     color: #111827;
     margin-top: 0;
     margin-bottom: 2.5rem;
+    letter-spacing: -0.02em;
   }
 
   .empty-message {
     color: #6b7280;
     font-size: 1.125rem;
+    text-align: center;
+    padding: 3rem 0;
   }
 
+  /* Сетка с защитой от переполнения (minmax(0, 1fr)) */
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
-  }
-
-  @media (min-width: 640px) {
-    .products-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .products-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+    gap: var(--grid-gap);
   }
 
   .product-card {
     display: flex;
     flex-direction: column;
-    background-color: #E2E2E2;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
+    background-color: #F3F4F6; /* Чуть современнее, чем #E2E2E2, но в той же гамме */
+    padding: var(--card-pad);
+    border-radius: 0.75rem;
     color: #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    height: 100%; /* Гарантирует одинаковую высоту карточек в ряду */
+    box-sizing: border-box;
+  }
+
+  .product-card:hover {
+    background-color: #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
   }
 
   .product-card__image-wrapper {
     position: relative;
-    height: 12rem;
+    height: var(--img-h);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+  }
+
+  .product-card:hover .product-card__image-wrapper {
+    background-color: #F9FAFB;
   }
 
   .status-badge {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 0.75rem;
+    right: 0.75rem;
     background-color: #16A34A;
     color: white;
     font-size: 0.75rem;
-    font-weight: bold;
+    font-weight: 700;
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .product-card__image {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover .product-card__image {
+    transform: scale(1.05);
   }
 
   .no-image-text {
@@ -273,49 +367,62 @@ try {
   }
 
   .product-card__title {
-    font-size: 1.25rem;
-    font-weight: bold;
+    font-size: 1.125rem;
+    font-weight: 700;
     margin: 0 0 0.5rem 0;
-    line-height: 1.2;
+    line-height: 1.3;
+    color: #111827;
+    transition: color 0.2s ease;
+  }
+
+  .product-card:hover .product-card__title {
+    color: #C2410C;
   }
 
   .product-card__price {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin: 0 0 1.5rem 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 1.25rem 0;
+    color: #111827;
   }
 
   .product-card__specs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
   }
 
   .spec-item {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    font-size: 0.9rem;
+    gap: 0.15rem;
+    font-size: 0.875rem;
   }
 
   .spec-label {
-    color: #555555;
+    color: #6b7280;
+    font-weight: 500;
   }
 
   .spec-value {
-    color: #000000;
+    color: #111827;
+    font-weight: 600;
   }
 
   .product-card__actions {
     display: flex;
-    gap: 0.5rem;
-    margin-top: auto;
+    gap: 0.75rem;
+    margin-top: auto; /* Прижимает кнопки к низу карточки */
   }
 
   .btn-more, .btn-order {
     flex: 1;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     padding: 0.75rem 0;
     font-size: 0.95rem;
@@ -326,14 +433,15 @@ try {
     border-radius: 0.5rem;
     cursor: pointer;
     font-family: inherit;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
+    min-height: 48px; /* Стандарт доступности для тач-интерфейсов */
   }
 
   .btn-more {
-    background-color: #525252;
+    background-color: #4B5563;
   }
   .btn-more:hover {
-    background-color: #404040;
+    background-color: #374151;
   }
 
   .btn-order {
@@ -341,6 +449,10 @@ try {
   }
   .btn-order:hover {
     background-color: #9A3412;
+  }
+
+  .btn-more:active, .btn-order:active {
+    transform: scale(0.97);
   }
 </style>
 

@@ -8,12 +8,6 @@ const { images } = Astro.props;
 ---
 
 <div class="slider-wrapper">
-  <button class="slider-btn prev-btn" aria-label="Предыдущее фото">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-  </button>
-
   <div class="slider-container">
     <div class="slider-track">
       {images.map((img, index) => (
@@ -25,13 +19,20 @@ const { images } = Astro.props;
         </div>
       ))}
     </div>
-  </div>
 
-  <button class="slider-btn next-btn" aria-label="Следующее фото">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  </button>
+    <!-- Кнопки ВНУТРИ контейнера для точного позиционирования -->
+    <button class="slider-btn prev-btn" aria-label="Предыдущее фото">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button class="slider-btn next-btn" aria-label="Следующее фото">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
 </div>
 
 <style>
@@ -39,18 +40,16 @@ const { images } = Astro.props;
     position: relative;
     max-width: 900px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    width: 100%;
   }
 
   .slider-container {
-    flex: 1;
+    position: relative; /* Для абсолютного позиционирования кнопок */
     overflow: hidden;
     border-radius: 0.75rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-card);
+    border: 1px solid var(--border-color, #e5e7eb);
+    background-color: var(--bg-card, #ffffff);
   }
 
   .slider-track {
@@ -81,49 +80,85 @@ const { images } = Astro.props;
     padding: 2rem 1.5rem 1rem;
     font-weight: 600;
     font-size: 1.125rem;
+    pointer-events: none;
+    z-index: 2;
   }
 
+  /* === СТИЛИ КНОПОК (ДЕСКТОП) === */
   .slider-btn {
+    position: absolute;
+    top: 50%;
+    /* Используем margin вместо transform для надежного центрирования */
+    margin-top: -24px; /* Половина высоты кнопки (48px / 2) */
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-card);
-    color: var(--accent-dark);
+    border: 1px solid var(--border-color, #e5e7eb);
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--accent-dark, #0F3D66);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    flex-shrink: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 10; /* Поверх слайдов, но под caption */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    /* Убираем transform чтобы не было конфликтов */
   }
 
   .slider-btn svg {
     width: 24px;
     height: 24px;
+    display: block;
+  }
+
+  .prev-btn {
+    left: 1rem;
+  }
+
+  .next-btn {
+    right: 1rem;
   }
 
   .slider-btn:hover {
-    background-color: var(--accent-dark);
+    background-color: var(--accent-dark, #0F3D66);
     color: white;
-    border-color: var(--accent-dark);
-    transform: scale(1.05);
+    border-color: var(--accent-dark, #0F3D66);
   }
 
   .slider-btn:active {
-    transform: scale(0.95);
+    background-color: var(--accent-dark, #0F3D66);
+    opacity: 0.9;
   }
 
-  /* Адаптивность для мобильных */
+  /* === МОБИЛЬНАЯ ВЕРСИЯ === */
   @media (max-width: 768px) {
-    .slider-wrapper {
-      gap: 0.5rem;
+    .slide {
+      aspect-ratio: 4 / 3;
     }
-    
+
     .slider-btn {
-      width: 40px;
-      height: 40px;
+      /* Фиксированное позиционирование без transform */
+      top: 50%;
+      margin-top: -22px; /* Половина высоты кнопки (44px / 2) */
+      width: 44px;
+      height: 44px;
+      background-color: rgba(255, 255, 255, 0.95);
+      z-index: 20; /* ГАРАНТИРОВАННО ПОВЕРХ ВСЕГО */
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+
+    .prev-btn {
+      left: 12px;
+    }
+
+    .next-btn {
+      right: 12px;
+    }
+
+    .slider-btn:active {
+      opacity: 0.85;
+      /* Убрали transform: scale() чтобы не было багов на тач-экранах */
     }
     
     .slide-caption {
@@ -133,8 +168,7 @@ const { images } = Astro.props;
   }
 </style>
 
-<script>
-  // Простая и легкая логика переключения слайдов
+<script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
     const wrappers = document.querySelectorAll('.slider-wrapper');
     
@@ -143,6 +177,8 @@ const { images } = Astro.props;
       const slides = wrapper.querySelectorAll('.slide');
       const prevBtn = wrapper.querySelector('.prev-btn');
       const nextBtn = wrapper.querySelector('.next-btn');
+      
+      if (!track || slides.length === 0) return;
       
       let currentIndex = 0;
       const totalSlides = slides.length;
@@ -161,7 +197,7 @@ const { images } = Astro.props;
         updateSlider();
       });
 
-      // Поддержка свайпов на мобильных устройствах
+      // Свайпы
       let touchStartX = 0;
       let touchEndX = 0;
 
@@ -172,11 +208,9 @@ const { images } = Astro.props;
       track.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         if (touchStartX - touchEndX > 50) {
-          // Свайп влево (следующий)
           currentIndex = (currentIndex === totalSlides - 1) ? 0 : currentIndex + 1;
           updateSlider();
         } else if (touchEndX - touchStartX > 50) {
-          // Свайп вправо (предыдущий)
           currentIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
           updateSlider();
         }
